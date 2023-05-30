@@ -1,0 +1,7 @@
+{% extends 'main.html' %}
+{% block content %}
+    {% for list in lists %}
+    <p><a href="{% url 'add-item' list.id %}">{{list.title}}</a></p>
+{% endfor %}
+
+{% endblock content %}
