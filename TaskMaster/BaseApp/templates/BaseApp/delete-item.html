@@ -3,14 +3,9 @@
 
 <form method="POST" action="">
     {% csrf_token %}
-    {{form.as_p}}
+    <p>Are you sure you want to delete {{item.title}}?</p>
+    <a href="{% url 'add-item' item.list.id %}">Go back</a>
     <input type="submit" value="Submit">
 </form>
-<hr>
-<br>
-{% for item in items %}
-<p>{{item.title}}</p>
-{% endfor %}
-
 
 {% endblock content %}

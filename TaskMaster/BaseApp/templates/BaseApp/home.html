@@ -1,7 +1,27 @@
 {% extends 'main.html' %}
 {% block content %}
-    {% for list in lists %}
-    <p><a href="{% url 'add-item' list.id %}">{{list.title}}</a></p>
+{% for list in lists %}
+<ul class="list-group list-group-flush">
+    <li class="list-group-item ">
+        <div class="row ">
+            <div class="col-3 ">
+                <p class="text-left ">
+                    <a href="{% url 'add-item' list.id %}">{{list.title}}</a>
+                </p>
+            </div>
+        
+            <div class="col-3">
+                <p class="text-right">
+                    <a href="{% url 'update-list' list.id %}">Add</a> | 
+                    <a href="{% url 'delete-list' list.id %}">Delete</a>
+                </p>
+            </div>
+            <div class="col-6">
+            </div>
+        </div>
+    </li>
+    
+</ul>
 {% endfor %}
 
 {% endblock content %}
