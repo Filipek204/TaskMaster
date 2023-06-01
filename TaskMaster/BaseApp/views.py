@@ -4,9 +4,11 @@ from .forms import ListForm, ListItemsForm
 
 
 def home(request):
-    lists = List.objects.all()
+    lists = List.objects.all()[:5]
+    items = ListItems.objects.all()[:5]
     context = {
         'lists': lists,
+        'items': items,
     }
     return render(request, "BaseApp/home.html", context)
 

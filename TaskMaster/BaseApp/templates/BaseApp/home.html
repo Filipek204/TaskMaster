@@ -1,27 +1,76 @@
 {% extends 'main.html' %}
 {% block content %}
-{% for list in lists %}
-<ul class="list-group list-group-flush">
-    <li class="list-group-item ">
-        <div class="row ">
-            <div class="col-3 ">
-                <p class="text-left ">
-                    <a href="{% url 'add-item' list.id %}">{{list.title}}</a>
-                </p>
+<div class="container-fluid">
+    <div class="row m-5 ">
+    <div class="col-6 ">
+        <div class="card h-100">
+                <div class="card text-white bg-dark mb-1 h-100">
+                    <div class="card-header">List name</div>
+                    <div class="card-body ">
+                        {% for list in lists %}
+                        <h4 class="card-title">
+                            <div class="row ">
+                            <div class="col-6  p-0">
+                                <p class="text-left m-0">
+                                    <a class="text-white " href="{% url 'update-list' list.id %}">{{list.title}}</a>
+                                </p>
+                            </div>
+                        
+                            <div class="col-6">
+                                <p class="text-right text-white">
+                                    <a class="text-white" href="{% url 'add-item' list.id %}">Add</a> | 
+                                    <a class="text-white" href="{% url 'delete-list' list.id %}">Delete</a>
+                                </p>
+                            </div>
+                        </div>
+                    </h4>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-        
-            <div class="col-3">
-                <p class="text-right">
-                    <a href="{% url 'update-list' list.id %}">Add</a> | 
-                    <a href="{% url 'delete-list' list.id %}">Delete</a>
-                </p>
-            </div>
-            <div class="col-6">
+    </div>
+    
+    <div class="col-6 ">
+        <div class="card  h-100">
+            <div class="card text-white bg-dark mb-1 h-100">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-4">Task name</div>
+                        <div class="col-4">Due date</div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% for item in items %}
+                    <h4 class="card-title">
+                        <div class="row ">
+                            <div class="col-4  p-0">
+                                <p class="text-left m-0">
+                                    <a class="text-white " href="#">{{item.title}}</a>
+                                </p>
+                            </div>
+                            <div class="col-4  p-0">
+                                <p class="text-left m-0">
+                                    <a class="text-white " href="#">{{item.due_date}}</a>
+                                </p>
+                            </div>
+                            <div class="col-4 p-0">
+                                <p class="text-right text-white">
+                                    <a class="text-white" href="{% url 'update-item' item.id %}">Edit</a> |
+                                    <a class="text-white" href="{% url 'delete-item' item.id %}">Delete</a>
+                                </p>
+                            </div>
+                        </div>
+                    </hr>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </li>
-    
-</ul>
-{% endfor %}
+    </div>
+</div>
+</div>
+
+
+
 
 {% endblock content %}
