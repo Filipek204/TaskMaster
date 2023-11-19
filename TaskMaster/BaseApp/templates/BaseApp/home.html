@@ -1,76 +1,54 @@
 {% extends 'main.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'style/home.css' %}">
+{% endblock style %}
 {% block content %}
-<div class="container-fluid">
-    <div class="row m-5 ">
-    <div class="col-6 ">
-        <div class="card h-100">
-                <div class="card text-white bg-dark mb-1 h-100">
-                    <div class="card-header">List name</div>
-                    <div class="card-body ">
-                        {% for list in lists %}
-                        <h4 class="card-title">
-                            <div class="row ">
-                            <div class="col-6  p-0">
-                                <p class="text-left m-0">
-                                    <a class="text-white " href="{% url 'update-list' list.id %}">{{list.title}}</a>
-                                </p>
-                            </div>
-                        
-                            <div class="col-6">
-                                <p class="text-right text-white">
-                                    <a class="text-white" href="{% url 'add-item' list.id %}">Add</a> | 
-                                    <a class="text-white" href="{% url 'delete-list' list.id %}">Delete</a>
-                                </p>
-                            </div>
-                        </div>
-                    </h4>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-    </div>
-    
-    <div class="col-6 ">
-        <div class="card  h-100">
-            <div class="card text-white bg-dark mb-1 h-100">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-4">Task name</div>
-                        <div class="col-4">Due date</div>
-                        <div class="col-4"></div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    {% for item in items %}
-                    <h4 class="card-title">
-                        <div class="row ">
-                            <div class="col-4  p-0">
-                                <p class="text-left m-0">
-                                    <a class="text-white " href="#">{{item.title}}</a>
-                                </p>
-                            </div>
-                            <div class="col-4  p-0">
-                                <p class="text-left m-0">
-                                    <a class="text-white " href="#">{{item.due_date}}</a>
-                                </p>
-                            </div>
-                            <div class="col-4 p-0">
-                                <p class="text-right text-white">
-                                    <a class="text-white" href="{% url 'update-item' item.id %}">Edit</a> |
-                                    <a class="text-white" href="{% url 'delete-item' item.id %}">Delete</a>
-                                </p>
-                            </div>
-                        </div>
-                    </hr>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="calendar-container">
 </div>
+<div id="upcoming-list-container">
+        
+<ul id="upcoming-task-list" title="Upcoming tasks">
+    {% for item in items %}
+    <li class="upcoming-element">
+        
+            <div class="upcoming-element-text">
+                <div style="float: left;">0{{forloop.counter}}.&nbsp</div><div>{{item.title}}</div>  
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" name="upcoming" class="upcoming-checkbox">
+            </div>
+        
+         
+    </li>
+
+    {% endfor %}
+</ul>
+
 </div>
+<div id="list-container">
+        <ul id="random-task-list" title="{{random_list.title}}">
+            {% for item in random %}
+            <li class="random-element">
+        
+                <div class="random-element-text">
+                    <div style="float: left;">0{{forloop.counter}}.&nbsp</div>
+                    <div>{{item.title}}</div>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" name="upcoming" class="upcoming-checkbox">
+                </div>
+        
+        
+            </li>
+        
+            {% endfor %}
+        </ul>
+</div>
+<div id="chart-container">
 
+</div>
+<div id="messages-container">
 
-
-
+</div>
 {% endblock content %}

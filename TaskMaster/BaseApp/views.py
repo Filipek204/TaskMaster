@@ -1,29 +1,50 @@
 from django.shortcuts import render, redirect
 from .models import List, ListItems
 from .forms import ListForm, ListItemsForm
+import random
 
 
 def home(request):
-    lists = List.objects.all()[:5]
+    list = List.objects.all()
+    random_list = random.choice(list)
+    random_list_items = ListItems.objects.filter(list=random_list)[:5]
     items = ListItems.objects.all()[:5]
     context = {
-        'lists': lists,
+        'lists': list,
         'items': items,
+        'random': random_list_items,
+        'random_list': random_list,
     }
     return render(request, "BaseApp/home.html", context)
 
 ####################################################### List CRUD ###############################################################
 
 
+def ListView(request, pk):
+    list = List.objects.get(id=pk)
+    lists = List.objects.all()
+    items = ListItems.objects.filter(list=List.objects.get(id=pk))
+    context = {
+        'list': list,
+        'lists': lists,
+        'items': items,
+    }
+    return render(request, "BaseApp/list-view.html", context)
+
+
 def addList(request):
     form = ListForm()
+    list = List()
+    lists = List.objects.all()
     if request.method == "POST":
         form = ListForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('home')
     context = {
-        "form": form
+        "forms": form,
+        "lists": lists,
+        "list": list
     }
     return render(request, "BaseApp/list-form.html", context)
 
@@ -39,7 +60,7 @@ def updateList(request, pk):
             return redirect('home')
     context = {
         "form": form,
-        "list": list
+        "lists": list
     }
     return render(request, "BaseApp/list-form.html", context)
 
@@ -52,7 +73,7 @@ def deleteList(request, pk):
         items.delete()
         return redirect('home')
     context = {
-        "list": list
+        "lists": list
     }
     return render(request, "BaseApp/delete-list.html", context)
 
@@ -85,7 +106,7 @@ def updateItem(request, pk):
             return redirect('home')
     context = {
         "form": form,
-        "item": item
+        "items": item
     }
     return render(request, "BaseApp/items.html", context)
 
@@ -96,6 +117,6 @@ def deleteItem(request, pk):
         item.delete()
         return redirect('home')
     context = {
-        "item": item
+        "items": item
     }
     return render(request, "BaseApp/delete-item.html", context)

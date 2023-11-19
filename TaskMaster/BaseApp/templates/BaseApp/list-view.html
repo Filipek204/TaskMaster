@@ -1,0 +1,8 @@
+{% extends 'main.html' %}
+{% block content %}
+{{list.title}}<br>{{list.description}}                
+{% for task in items %}
+<p>{{task.title}}</p>
+{% endfor %}
+<a href=""></a>
+{% endblock content %} 

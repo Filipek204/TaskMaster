@@ -1,17 +1,76 @@
-/* *{
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    border: 1px solid #171F39;
+ @import url('https://fonts.googleapis.com/css2?family=Lato&family=Lobster+Two:ital@1&family=Rajdhani:wght@700&display=swap');
+
+ * {
+     margin: 0;
+     padding: 0;
+     font-family: lato
+ }
+
+ body {
+     background-color: #E0E0E0;
+
+ }
+
+ #container {
+     position: absolute;
+     top: 4vh;
+     bottom: 5vh;
+     left: 4vh;
+     right: 4vh;
+     display: grid;
+     grid-template-columns: 15% repeat( 7, minmax(0,1fr));
+     grid-template-rows: 5% repeat(2, minmax(0, 1fr));
+     gap: 2vh;
+
+ }
+
+
+
+ /* #table { 
+    border: 1px solid #DFDFDF;
+    border-radius: 5px;
+    border-collapse: separate;
+    background-color: #343A40;
+    width: 45%;
+    border-spacing: 0;
+    padding-bottom: 20px;
 }
-body{
-    border:1px solid #171F39 ;
-    background-color: #F7F5F4;
+
+#table-head {
+    border-radius: 5px;
+    background-color: #32383E;
+    height: 50px;
+    border-bottom: 1px solid #2D3136;
+    color: #DFDFDF;
+}
+
+th h1 {
+    font-size: 1.5em;
+    margin: 0 0 0 5px;
     display: flex;
-    height: 100%;
+    align-items: center;
 }
-#navbar{
-    width:15%;
-    height:100%;
-    background-color: #171F39;
+
+#table td {
+    border-bottom: 1px solid #2D3136;
+    font-size: 1.3em;
+}
+
+.column-1 {
+    width: 50%;
+    padding-left: 5px;
+}
+
+.column-2 {
+    width: 20%;
+}
+
+.column-3 {}
+
+tr .link {
+    color: #DFDFDF;
+}
+
+tr .link:hover {
+    color: #DFDFDF;
 } */

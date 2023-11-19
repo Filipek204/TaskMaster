@@ -1,28 +1,55 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-    <a class="navbar-brand" href="{% url 'home' %}">TaskMaster</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'add-list' %}">Create</a>
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}">
+{% endblock style %}
+<div id="navbar-container">
+    
+    <a href="{% url 'home' %}" id="nav-logo">
+        <img id="logo-image" src="{% static 'images/time-management.png' %}" alt="logo">
+    </a>
+    <div id="nav-links">
+        <ul class="nav-list">
+            <li>
+                <a href="#" class="nav-element" id="calendar">
+                    <img src="{% static 'images/calendar.png' %}" alt="calendar icon" class="icon" id="calendar-icon">
+                    <p class="nav-text">Calendar</p>
+                </a>
+            </li> 
+            
+            <li >
+                <a class="nav-element" id="messages" href="#">
+                    <img src="{% static 'images/chatting.png' %}" alt="messages icon" class="icon" id="messages-icon">
+                    <p class="nav-text">Messages</p>
+                </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> Services </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> Contact </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> Blogs </a>
+            
+            <li >
+                <a class="nav-element" id="chart" href="#">
+                    <img src="{% static 'images/line-chart.png' %}" alt="chart icon" class="icon" id="chart-icon">
+                    <p class="nav-text">Charts</p>
+                </a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <hr id="nav-hr">
+        <ul class="nav-list">
+            {% for list in lists %}
+            
+            <li>
+                <a class="nav-element" id="list-list" href="{% url 'list' list.id %}">
+                    <img src="{% static 'images/checklist.png' %}" alt="list icon" class="icon" id="list-icon">
+                    <p class="nav-text">{{list.title}}</p>
+                </a>
+            </li>
+            {% endfor %}
+            <li>
+                <a href="{% url 'add-list' %}" class="nav-element" id="create-list">
+                    <img src="{% static 'images/create.png' %}" alt="create icon" class="icon" id="create-icon">
+                    <p class="nav-text"> Create list</p>
+                </a>
+            </li>
+        </ul>
     </div>
-</nav>
+</div>
+<div id="search-container">
+
+</div>
