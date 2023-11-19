@@ -8,7 +8,7 @@ def home(request):
     list = List.objects.all()
     random_list = random.choice(list)
     random_list_items = ListItems.objects.filter(list=random_list)[:5]
-    items = ListItems.objects.all()[:5]
+    items = ListItems.objects.order_by("due_date")[:5]
     context = {
         'lists': list,
         'items': items,
@@ -82,6 +82,7 @@ def deleteList(request, pk):
 
 def addItem(request, pk):
     form = ListItemsForm()
+    list = List.objects.all()
     items = ListItems.objects.filter(list=List.objects.get(id=pk))
     if request.method == "POST":
         form = ListItemsForm(request.POST)
@@ -90,7 +91,8 @@ def addItem(request, pk):
             form.save()
     context = {
         "form": form,
-        "items": items
+        "items": items,
+        "lists":list,
     }
     return render(request, "BaseApp/items.html", context)
 

@@ -4,5 +4,5 @@
 {% for task in items %}
 <p>{{task.title}}</p>
 {% endfor %}
-<a href=""></a>
+<a href="{% url 'add-item' list.id %}"> add item</a>
 {% endblock content %} 

@@ -1,16 +1,11 @@
 {% extends 'main.html' %}
-<!-- {% block content %}
+{% block content %}
 
 <form method="POST" action="">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Submit">
 </form>
-<hr>
-<br>
-{% for item in items %}
-<p>{{item.title}} | <a href="{% url 'update-item' item.id %}">➕</a> | <a href="{% url 'delete-item' item.id %}">Delete</a></p>
-{% endfor %}
 
 
-{% endblock content %} -->
+{% endblock content %}
