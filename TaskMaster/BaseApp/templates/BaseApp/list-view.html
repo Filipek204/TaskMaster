@@ -1,8 +1,41 @@
 {% extends 'main.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'style/list-view.css' %}">
+{% endblock style %}
 {% block content %}
-{{list.title}}<br>{{list.description}}                
-{% for task in items %}
-<p>{{task.title}}</p>
-{% endfor %}
-<a href="{% url 'add-item' list.id %}"> add item</a>
+<div id="list-view-container">
+     <h1 id="list-title">{{list.title}}</h1><h3 id="date">{{list.created_at}}</h3>
+    <h4 id="list-description">{{list.description}}  </h4>
+    <hr id="list-hr">              
+    <ul id="list-view">
+        {% for task in items %}
+        <li class="list-element">
+            <div class="list-element-text">
+            <label class="container"><h3 >{{task.title}}</h3>
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+
+            </div>
+        </li>
+        {% endfor %}
+        <li class="list-element" >
+            <div class="list-element-text">
+                <a id="add-task-link" href="{% url 'add-item' list.id %}">
+                <label class="container">
+                    <h3 class="task-name"> add item</h3>
+                    <img id="add-item" src="{% static 'images/add.png' %}" alt="Plus icon">
+                </label>
+            </a>
+        </div>
+        
+        </li>
+        
 {% endblock content %} 
+    </ul>
+
+
+
+
+</div>

@@ -58,8 +58,6 @@
     cursor: pointer;
     border-right: 0.3vh solid #FF9914;
     color: #FF9914;
-    background-repeat: no-repeat;
-    background-size: 3vh;
     background: linear-gradient(0.25turn, #F5F5F5, #FFD399);
 }
 
