@@ -1,7 +1,114 @@
 from django.shortcuts import render, redirect
+from rest_framework import generics
+from rest_framework.response import Response
 from .models import List, ListItems
 from .forms import ListForm, ListItemsForm
+from .serializers import ListSerializer, ListItemsSerializer
 import random
+
+###################### List API ###########################
+
+class ListCreateAPIView(generics.ListCreateAPIView):
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+list_create_view = ListCreateAPIView.as_view()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+class ListRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    lookup_field = 'pk'
+
+
+list_retrieve_view = ListRetrieveAPIView.as_view()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+class ListUpdateAPIView(generics.UpdateAPIView):
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer):
+        serializer.save()
+
+
+list_update_view = ListUpdateAPIView.as_view()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+class ListDeleteAPIView(generics.DestroyAPIView):
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    lookup_field = 'pk'
+
+    def perform_destroy(self, instance):
+        super().perform_destroy(instance)
+
+
+list_delete_view = ListDeleteAPIView.as_view()
+######################## items API #############################
+
+
+class ItemsCreateAPIView(generics.ListCreateAPIView):
+    queryset = ListItems.objects.all()
+    serializer_class = ListItemsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+items_create_view = ItemsCreateAPIView.as_view()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+class ItemsRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = ListItems.objects.all()
+    serializer_class = ListItemsSerializer
+    lookup_field = 'pk'
+
+
+items_retrieve_view = ItemsRetrieveAPIView.as_view()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+class ItemsUpdateAPIView(generics.UpdateAPIView):
+    queryset = ListItems.objects.all()
+    serializer_class = ListItemsSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer):
+        serializer.save()
+
+
+items_update_view = ItemsUpdateAPIView.as_view()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+class ItemsDeleteAPIView(generics.DestroyAPIView):
+    queryset = ListItems.objects.all()
+    serializer_class = ListItemsSerializer
+    lookup_field = 'pk'
+
+    def perform_destroy(self, instance):
+        super().perform_destroy(instance)
+
+
+items_delete_view = ItemsDeleteAPIView.as_view()
+
+###################### Home page ##########################
 
 
 def home(request):
@@ -92,7 +199,7 @@ def addItem(request, pk):
     context = {
         "form": form,
         "items": items,
-        "lists":list,
+        "lists": list,
     }
     return render(request, "BaseApp/items.html", context)
 

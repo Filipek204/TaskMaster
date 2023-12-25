@@ -9,7 +9,7 @@
 <div id="upcoming-list-container">
         
 <ul id="upcoming-task-list" title="Upcoming tasks">
-    {% for item in items %}
+    <!-- {% for item in items %}
     <li class="upcoming-element">
         
             <div class="upcoming-element-text">
@@ -23,7 +23,7 @@
          
     </li>
 
-    {% endfor %}
+    {% endfor %} -->
 </ul>
 
 </div>
@@ -53,4 +53,8 @@
 <div id="messages-container">
 
 </div>
+
 {% endblock content %}
+{% block script %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

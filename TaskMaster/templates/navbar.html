@@ -7,8 +7,8 @@
     <a href="{% url 'home' %}" id="nav-logo">
         <img id="logo-image" src="{% static 'images/time-management.png' %}" alt="logo">
     </a>
-    <div id="nav-links">
-        <ul class="nav-list">
+    <div id="nav-links-container">
+        <ul id="nav-links">
             <li>
                 <a href="#" class="nav-element" id="calendar">
                     <img src="{% static 'images/calendar.png' %}" alt="calendar icon" class="icon" id="calendar-icon">
@@ -31,25 +31,36 @@
             </li>
         </ul>
         <hr id="nav-hr">
-        <ul class="nav-list">
-            {% for list in lists %}
-            
+        <div id="list-container">
+        <ul id="nav-list">
+            <div id="lists" ></div>
             <li>
-                <a class="nav-element" id="list-list" href="{% url 'list' list.id %}">
-                    <img src="{% static 'images/checklist.png' %}" alt="list icon" class="icon" id="list-icon">
-                    <p class="nav-text">{{list.title}}</p>
-                </a>
-            </li>
-            {% endfor %}
-            <li>
-                <a href="{% url 'add-list' %}" class="nav-element" id="create-list">
+                
+                <div class="nav-element" id="create-list">
                     <img src="{% static 'images/create.png' %}" alt="create icon" class="icon" id="create-icon">
                     <p class="nav-text"> Create list</p>
-                </a>
+                </div>
             </li>
         </ul>
     </div>
+    </div>
 </div>
 <div id="search-container">
-
+<div id="popup-add-list-container">
+    <div id="add-list-window">
+        <h2>Create List</h2>
+        <div id="close">close</div>
+        <form id="form">
+            <label for="Title">Title</label>
+            <input type="text" name="Title" id="Title">
+            <label for="Description">Description</label>
+            <textarea name="Description" id="Description" cols="30" rows="10"></textarea>
+            <input type="submit" value="submit">
+            <input type="reset" value="reset">
+        </form>
+    </div>
 </div>
+</div>
+{% block script %}
+<script src="{% static 'js/navbar.js' %}"></script>
+{% endblock %}
