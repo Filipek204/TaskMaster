@@ -3,49 +3,61 @@
 <link rel="stylesheet" href="{% static 'style/navbar.css' %}">
 {% endblock style %}
 <div id="navbar-container">
-    
-    <a href="{% url 'home' %}" id="nav-logo">
-        <img id="logo-image" src="{% static 'images/time-management.png' %}" alt="logo">
-    </a>
-    <div id="nav-links-container">
-        <ul id="nav-links">
-            <li>
-                <a href="#" class="nav-element" id="calendar">
-                    <img src="{% static 'images/calendar.png' %}" alt="calendar icon" class="icon" id="calendar-icon">
-                    <p class="nav-text">Calendar</p>
-                </a>
-            </li> 
-            
-            <li >
-                <a class="nav-element" id="messages" href="#">
-                    <img src="{% static 'images/chatting.png' %}" alt="messages icon" class="icon" id="messages-icon">
-                    <p class="nav-text">Messages</p>
-                </a>
-            </li>
-            
-            <li >
-                <a class="nav-element" id="chart" href="#">
-                    <img src="{% static 'images/line-chart.png' %}" alt="chart icon" class="icon" id="chart-icon">
-                    <p class="nav-text">Charts</p>
-                </a>
-            </li>
-        </ul>
-        <hr id="nav-hr">
-        <div id="list-container">
-        <ul id="nav-list">
-            <div id="lists" ></div>
-            <li>
+    <div id="all-nav-container">
+        <div id="no-movable-content">
+            <a href="{% url 'home' %}" id="nav-logo">
+                <img id="logo-image" src="{% static 'images/time-management.png' %}" alt="logo">
+            </a>
+            <div id="nav-links-container">
+                <ul id="nav-links">
+                    <li>
+                        <a href="#" class="nav-element" id="calendar">
+                            <img src="{% static 'images/calendar.png' %}" alt="calendar icon" class="icon" id="calendar-icon">
+                            <p class="nav-text">Calendar</p>
+                        </a>
+                    </li> 
+                    
+                    <li >
+                        <a class="nav-element" id="messages" href="#">
+                            <img src="{% static 'images/chatting.png' %}" alt="messages icon" class="icon" id="messages-icon">
+                            <p class="nav-text">Messages</p>
+                        </a>
+                    </li>
+                    
+                    <li >
+                        <a class="nav-element" id="chart" href="#">
+                            <img src="{% static 'images/line-chart.png' %}" alt="chart icon" class="icon" id="chart-icon">
+                            <p class="nav-text">Charts</p>
+                        </a>
+                    </li>
+                </ul>
+                <hr id="nav-hr">
+            </div>
+        </div>
+        <div id="nav-list-container">
+            <ul id="nav-list">
+                <li id="lists"></li>
+                  
+                    
                 
-                <div class="nav-element" id="create-list">
-                    <img src="{% static 'images/create.png' %}" alt="create icon" class="icon" id="create-icon">
-                    <p class="nav-text"> Create list</p>
-                </div>
-            </li>
-        </ul>
+            </ul>
+        </div>
+        <div class="nav-element" id="create-list">
+            <img src="{% static 'images/create.png' %}" alt="create icon" class="icon" id="create-icon">
+            <p class="nav-text"> Create list</p>
+    </div>
+    <hr id="nav-hr">
+    <div class="nav-element" id="settings">
+        <img src="{% static 'images/settings.png' %}" alt="create icon" class="icon" id="settings-icon">
+        <p class="nav-text"> Settings</p>
     </div>
     </div>
+    
 </div>
+
 <div id="search-container">
+
+</div>
 <div id="popup-add-list-container">
     <div id="add-list-window">
         <h2>Create List</h2>
@@ -59,7 +71,6 @@
             <input type="reset" value="reset">
         </form>
     </div>
-</div>
 </div>
 {% block script %}
 <script src="{% static 'js/navbar.js' %}"></script>

@@ -16,7 +16,7 @@
     border-radius: 1vh;
     align-items: center;
     border: 0.2vh solid #EBEBEB;
-    
+
 }
 
 #logo-image {
@@ -24,13 +24,26 @@
     float: left;
 
 }
+#all-nav-container{
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 2vh;
+}
 
-#list-container{
-    overflow-y: scroll;
+#nav-list-container {
+    overflow-y: auto;
+    overflow-x: visible;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     
 }
+#nav-list-container::-webkit-scrollbar{
+    display: none;
+}
+
 #nav-logo {
-    margin-top: 2vh;
+    padding-top: 2vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,26 +51,21 @@
 
 #nav-links-container {
     margin-top: 5vh;
-    display: flex;
-    flex-direction: column;
-    max-height: 87%;
+    height: 50%;
 }
-#nav-links{
-    
+
+#nav-links {
     list-style: none;
-    font-size: 2vh;
-    height: fit-content;
 }
+
 #nav-list {
     list-style: none;
-    font-size: 2vh;
+    max-height: 100%;
 }
-
-
 .nav-element {
     margin: 2vh 0 0 0;
     padding: 0.5vh 0 0.5vh 0;
-    width: 100%;
+    border-right: 0.3vh solid rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     background-repeat: no-repeat;
@@ -65,7 +73,6 @@
     background-position: 1vh;
     text-decoration: none;
     color: black;
-
 }
 
 .nav-element:hover {
@@ -78,6 +85,7 @@
 .nav-text {
     font-weight: 800;
     margin-left: 1vh;
+    word-break: break-word;
 }
 
 .icon {
@@ -105,7 +113,9 @@
 #create-list:hover #create-icon {
     content: url(../images/create-orange.png);
 }
-
+#settings:hover #settings-icon {
+    content: url(../images/settings-orange.png);
+}
 
 
 #nav-hr {
@@ -115,6 +125,10 @@
     background-color: #EBEBEB;
     width: 100%;
 }
+#create-list{
+    margin: 0;
+}
+
 /*--------------------- create list popup form ------------------*/
 #popup-add-list-container {
     display: none;
@@ -144,7 +158,8 @@
     border: 0.5vh solid #EBEBEB;
     box-sizing: border-box;
 }
-#close:hover{
+
+#close:hover {
     color: gray;
     cursor: pointer;
 }

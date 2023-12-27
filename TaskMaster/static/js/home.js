@@ -1,5 +1,6 @@
 const itemsEndpoint = async () => (await fetch('http://127.0.0.1:8000/api/items/')).json();
 const upcomingTasks = document.getElementById("upcoming-task-list");
+
 var i = 1;
 itemsEndpoint()
     .then(data => {

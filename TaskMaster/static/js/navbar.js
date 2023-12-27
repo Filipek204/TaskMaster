@@ -2,7 +2,7 @@ const listEndpoint = 'http://127.0.0.1:8000/api/list/'
 btn = document.getElementById("create-list");
 modal = document.getElementById("popup-add-list-container");
 form = document.getElementById("form");
-close = document.getElementById("close");
+closeListForm = document.getElementById("close");
 const navList = document.getElementById("lists")
 
 
@@ -13,12 +13,10 @@ async function navLists(url) {
     
         for (let list of data) {
             navList.innerHTML += `
-            <li>
                 <a class="nav-element" id="list-list" href="/list/${list.id}">
                     <img src=${imgSrc} alt="list icon" class="icon" id="list-icon">
                     <p class="nav-text">${list.title}</p>
-                </a>
-            </li>`
+                </a>`
                 ;
         }
     
@@ -32,7 +30,7 @@ navList.onload = navLists(listEndpoint)
 btn.onclick = function () {
     modal.style.display = "block";
 }
-close.onclick = function () {
+closeListForm.onclick = function () {
     modal.style.display = "none";
 }
 form.addEventListener('submit', async event => {
@@ -40,7 +38,7 @@ form.addEventListener('submit', async event => {
     const title = document.getElementById("Title").value;
     const description = document.getElementById("Description").value;
     try {
-        const res = await fetch('http://127.0.0.1:8000/api/list/', {
+        const res = await fetch(listEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

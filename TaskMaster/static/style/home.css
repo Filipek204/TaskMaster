@@ -17,7 +17,7 @@
     box-sizing: border-box;
 }
 
-#list-container {
+#random-list-container {
     width: 100%;
     height: 100%;
     grid-area: 2 / 7 / span 1/ span 2;
@@ -154,6 +154,7 @@
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
 /* ---------------------------------------random list------------------------------------------------ */
 
 #random-task-list::before {
@@ -181,12 +182,10 @@
     margin: auto 1vh;
 
 }
+
 .random-element-text {
     word-break: break-word;
     display: table-cell;
     width: 100%;
     vertical-align: top;
 }
-
-
-
