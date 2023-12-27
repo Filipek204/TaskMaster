@@ -1,0 +1,77 @@
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}">
+{% endblock style %}
+<div id="navbar-container">
+    <div id="all-nav-container">
+        <div id="no-movable-content">
+            <a href="{% url 'home' %}" id="nav-logo">
+                <img id="logo-image" src="{% static 'images/time-management.png' %}" alt="logo">
+            </a>
+            <div id="nav-links-container">
+                <ul id="nav-links">
+                    <li>
+                        <a href="#" class="nav-element" id="calendar">
+                            <img src="{% static 'images/calendar.png' %}" alt="calendar icon" class="icon" id="calendar-icon">
+                            <p class="nav-text">Calendar</p>
+                        </a>
+                    </li> 
+                    
+                    <li >
+                        <a class="nav-element" id="messages" href="#">
+                            <img src="{% static 'images/chatting.png' %}" alt="messages icon" class="icon" id="messages-icon">
+                            <p class="nav-text">Messages</p>
+                        </a>
+                    </li>
+                    
+                    <li >
+                        <a class="nav-element" id="chart" href="#">
+                            <img src="{% static 'images/line-chart.png' %}" alt="chart icon" class="icon" id="chart-icon">
+                            <p class="nav-text">Charts</p>
+                        </a>
+                    </li>
+                </ul>
+                <hr id="nav-hr">
+            </div>
+        </div>
+        <div id="nav-list-container">
+            <ul id="nav-list">
+                <li id="lists"></li>
+                  
+                    
+                
+            </ul>
+        </div>
+        <div class="nav-element" id="create-list">
+            <img src="{% static 'images/create.png' %}" alt="create icon" class="icon" id="create-icon">
+            <p class="nav-text"> Create list</p>
+    </div>
+    <hr id="nav-hr">
+    <div class="nav-element" id="settings">
+        <img src="{% static 'images/settings.png' %}" alt="create icon" class="icon" id="settings-icon">
+        <p class="nav-text"> Settings</p>
+    </div>
+    </div>
+    
+</div>
+
+<div id="search-container">
+
+</div>
+<div id="popup-add-list-container">
+    <div id="add-list-window">
+        <h2>Create List</h2>
+        <div id="close">close</div>
+        <form id="form">
+            <label for="Title">Title</label>
+            <input type="text" name="Title" id="Title">
+            <label for="Description">Description</label>
+            <textarea name="Description" id="Description" cols="30" rows="10"></textarea>
+            <input type="submit" value="submit">
+            <input type="reset" value="reset">
+        </form>
+    </div>
+</div>
+{% block script %}
+<script src="{% static 'js/navbar.js' %}"></script>
+{% endblock %}

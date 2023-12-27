@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>TaskMaster</title>
+    <link rel="stylesheet" href="{% static 'style/main.css' %}">
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+    <div id="container">
+        {% include 'navbar.html' %}
+        {% block content %}
+        {% endblock content %}
+    </div>
+    
+
+
+</body>
+<script>
+    var imgSrc = "{% static 'images/checklist.png' %}"
+</script>
+{% block script %}
+{% endblock %}
+</html>

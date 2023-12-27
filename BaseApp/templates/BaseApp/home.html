@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'style/home.css' %}">
+{% endblock style %}
+{% block content %}
+<div id="calendar-container">
+</div>
+<div id="upcoming-list-container">
+        
+<ul id="upcoming-task-list" title="Upcoming tasks">
+    <!-- {% for item in items %}
+    <li class="upcoming-element">
+        
+            <div class="upcoming-element-text">
+                <div style="float: left;">0{{forloop.counter}}.&nbsp</div><div>{{item.title}}</div>  
+            </div>
+            <label class="container">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+        
+         
+    </li>
+
+    {% endfor %} -->
+</ul>
+
+</div>
+<div id="random-list-container">
+        <ul id="random-task-list" title="{{random_list.title}}">
+            {% for item in random %}
+            <li class="random-element">
+        
+                <div class="random-element-text">
+                    <div style="float: left;">0{{forloop.counter}}.&nbsp</div>
+                    <div>{{item.title}}</div>
+                </div>
+                <label class="container">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+        
+        
+            </li>
+        
+            {% endfor %}
+        </ul>
+</div>
+<div id="chart-container">
+
+</div>
+<div id="messages-container">
+
+</div>
+
+{% endblock content %}
+{% block script %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
