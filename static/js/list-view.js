@@ -1,22 +1,29 @@
 const itemsEndpoint = 'http://127.0.0.1:8000/api/items/'
-var listUrl = new URL(window.location.href);
-var listID = listUrl.pathname.split('/')[2]
-btn = document.getElementById("add-item");
-modalItem = document.getElementById("popup-add-item-container");
-viewItemModal =document.getElementById("popup-view-item-container");
-formItem = document.getElementById("form-item");
-closeItemForm = document.getElementById("close");
-closeViewItemForm = document.getElementById("close-view-iem");
-listTitle = document.getElementById("list-title");
-listDescription = document.getElementById("list-description");
-listCreatedAt = document.getElementById("date");
-itemViewBtn = document.getElementsByClassName("item-view")[2];
-const listView = document.getElementById("list-view");     
+const listUrl = new URL(window.location.href);
+const listID = listUrl.pathname.split('/')[2]
+let btn = document.getElementById("add-item");
+let modalItem = document.getElementById("popup-add-item-container");
+let viewItemModal =document.getElementById("popup-view-item-container");
+let formItem = document.getElementById("form-item");
+let closeItemForm = document.getElementById("close-item-form");
+let closeViewItemForm = document.getElementById("close-view-item");
+let listTitle = document.getElementById("list-title");
+let listDescription = document.getElementById("list-description");
+let listCreatedAt = document.getElementById("date");
+let listView = document.getElementById("list-view");    
+let elements = {};
+let listTitleData = ""
+const listViewTitle = document.getElementById("item-view-title");
+let itemViewListTitle = document.getElementById("item-view-list-title");
+const delItem = document.getElementById("delete-item");
+let filteredData = [ ]
+
 async function list(url) {
     try {
         const res = await fetch(`${url}${listID}/`)
         const data = await res.json()
         const date = new Date(data.created_at)
+        listTitleData = data.title
         listTitle.innerHTML = `${data.title}`;
         listDescription.innerHTML = `${data.description}`;
         listCreatedAt.innerHTML = `${date.toLocaleString()}`;
@@ -27,13 +34,13 @@ async function list(url) {
         console.log(error)
     }
 }
-
 listView.onload = list(listEndpoint)
+
 async function listItems(url) {
     try {
         const res = await fetch(url)
         const data = await res.json()
-        const filteredData = data.filter(item => item.list==listID)
+        filteredData = data.filter(item => item.list==listID)
         for (let item of filteredData) {
                 listView.innerHTML += `
                 <li class="list-element">
@@ -48,10 +55,20 @@ async function listItems(url) {
             </div>
             
         </li>`;
-            
-            
         }
-    
+    elements = document.querySelectorAll('.item-view');
+        elements.forEach(( element,index )   => {
+            element.addEventListener('click', event => {
+                viewItemModal.style.display = "block";
+                listViewTitle.innerHTML = filteredData[index].title
+                itemViewListTitle.innerHTML = listTitleData
+                delItem.addEventListener('click', () => {
+                    deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
+                    viewItemModal.style.display = "none";
+                })
+            });
+        });
+
     } catch(error) {
         console.log(error)
     }
@@ -94,27 +111,52 @@ formItem.addEventListener('submit', async event => {
         
         
         modalItem.style.display = "none";
-        listView.innerHTML += `
-           <li class="list-element">
-            <div class="list-element-text">
-            <label class="container"><h3 >${data.title}</h3>
-                <input type="checkbox">
-                <span class="checkmark"></span>
-            </label>
-
-            </div>
-        </li>
-                `;
+        // listView.innerHTML += `
+        //   <li class="list-element">
+        //     <div class="list-element-text">
+            
+        //     <div class="container">
+        //     <h3 class="item-view">${data.title}</h3>
+        //     <label>
+        //         <input type="checkbox">
+        //         <span class="checkmark"></span></label>
+        //     </div>
+        //     </div>
+            
+        // </li>`;
+        // elements = document.querySelectorAll('.item-view');
+        // elements.forEach(( element, index ) => {
+        //     element.addEventListener('click', event => {
+        //         viewItemModal.style.display = "block";
+        //         listViewTitle.innerHTML = filteredData[index].title
+        //         itemViewListTitle.innerHTML = listTitleData
+        //         delItem.addEventListener('click', () => {
+        //             deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
+        //             viewItemModal.style.display = "none";
+        //         })
+        //     });
+        // });
+        listView.innerHTML =""
+        listItems(itemsEndpoint)
     } catch (error) {
         console.log(error);
     }
 })
-
-
-
-itemViewBtn.onclick = function () {
-    viewItemModal.style.display = "block";
-}
 closeViewItemForm.onclick = function () {
     viewItemModal.style.display = "none";
+}
+async function deleteItem(url) {
+    try {
+        const res = await fetch(url, {
+            method: 'DELETE',
+        });
+        if (!res.ok) {
+                console.log("problem");
+                return;
+        }
+        listView.innerHTML =""
+        listItems(itemsEndpoint)
+    } catch (error) {
+        console.log(error);
+    }
 }

@@ -30,9 +30,9 @@
     position: relative;
     padding-left: 3.5vh;
     margin-bottom: 1.2vh;
-    
+
     font-size: 2.2vh;
-    
+
 }
 
 
@@ -105,7 +105,8 @@ input:checked~.checkmark {
     background-color: #EBEBEB;
     width: 100%;
 }
-#add-icon{
+
+#add-icon {
     height: 3vh;
     width: auto;
     margin-right: 0.7vh;
@@ -129,7 +130,7 @@ input:checked~.checkmark {
 
 /* -------------popup form ------------- */
 #popup-add-item-container {
-    display:none;
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -157,14 +158,16 @@ input:checked~.checkmark {
     box-sizing: border-box;
 }
 
-#close:hover {
+#close-item-form:hover {
     color: gray;
     cursor: pointer;
 }
-.item-view:hover{
+
+.item-view:hover {
     cursor: pointer;
     color: gray;
 }
+
 /* -------------- item view --------------- */
 #popup-view-item-container {
     display: none;
@@ -182,20 +185,33 @@ input:checked~.checkmark {
     /* Black w/ opacity */
 }
 
-#add-view-window {
+#view-item-window {
     position: relative;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 30%;
-    height: 50%;
+    width: 25%;
+    height: fit-content;
     background-color: #F5F5F5;
     border-radius: 1vh;
     border: 0.5vh solid #EBEBEB;
     box-sizing: border-box;
+    padding: 2vh;
 }
-
+#close-view-item{
+    float: right;
+}
 #close-view-item:hover {
+    color: gray;
+    cursor: pointer;
+}
+#item-view-description{
+    word-wrap: break-word;
+}
+#delete-item{
+    float: right;
+}
+#delete-item:hover {
     color: gray;
     cursor: pointer;
 }
