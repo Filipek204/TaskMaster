@@ -19,14 +19,13 @@ async function navLists(url) {
                 </a>`
                 ;
         }
-    
+
     } catch(error) {
         console.log(error)
     }
 }
 
 navList.onload = navLists(listEndpoint)
-
 btn.onclick = function () {
     modal.style.display = "block";
 }
@@ -41,7 +40,8 @@ form.addEventListener('submit', async event => {
         const res = await fetch(listEndpoint, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                // 'Authorization' :  `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 'title': title,
