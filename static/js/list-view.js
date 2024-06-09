@@ -92,7 +92,8 @@ formItem.addEventListener('submit', async event => {
         const res = await fetch(itemsEndpoint, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' +  window.localStorage.getItem("token"),
             },
             body: JSON.stringify({
                 'title': title,
