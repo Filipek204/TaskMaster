@@ -34,18 +34,17 @@ closeListForm.onclick = function () {
 }
 form.addEventListener('submit', async event => {
     event.preventDefault();
-    const title = document.getElementById("Title").value;
-    const description = document.getElementById("Description").value;
     try {
         const res = await fetch(listEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 'Authorization' :  `Bearer ${localStorage.getItem("token")}`
+                'Authorization': 'Bearer ' +  window.localStorage.getItem("token"),
             },
             body: JSON.stringify({
-                'title': title,
-                'description': description,
+                'title': event.target.Title.value,
+                'description': event.target.Description.value,
+                'user': jwt_decode(window.localStorage.getItem("token")).username,
             }),
         });
         const data = await res.json();
@@ -53,7 +52,10 @@ form.addEventListener('submit', async event => {
         if (!res.ok) {
                 console.log("problem");
                 return;
-            }
+        }
+        else {
+            
+        }
         
         console.log(data);
         modal.style.display = "none";

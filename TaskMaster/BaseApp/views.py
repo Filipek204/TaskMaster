@@ -1,54 +1,45 @@
 from django.shortcuts import render, redirect
-from rest_framework import generics, viewsets
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, ListCreateAPIView, DestroyAPIView
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from .models import List, ListItems
 from .forms import ListForm, ListItemsForm
-from .serializers import ListSerializer, ListItemsSerializer, UserSerializer
+from .serializers import ListSerializer, ListItemsSerializer , UserSerializer
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 import random
+from rest_framework import status
+from django.conf import settings
+from django.contrib import auth
+import jwt
 #################### login Authentication API ######################
+class RegisterView(GenericAPIView):
+    serializer_class = UserSerializer
+    def post (self, request):
+        serializer = UserSerializer(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserViewset(viewsets.ModelViewSet):
-    permission_classes=(IsAuthenticated,)
-    serializer_class=UserSerializer
-    queryset=get_user_model().objects.all()
-# @api_view(['POST'])
-# def login(request):
-#     user = get_object_or_404(User, username=request.data['username'])
-#     if not user.check_password(request.data['password']):
-#         return Response({"detail": "not found"}, status=status.HTTP_404_NOT_FOUND)
-#     token, created = Token.objects.get_or_create(user=user)
-#     serializer = UserSerializer(instance=user)
-#     return Response({"token": token.key, "user": serializer.data})
+class LoginView(GenericAPIView):
+    serializer_class = UserSerializer
+    def post(self, request):
+        data = request.data
+        username = data.get('username', '')
+        password = data.get('password', '')
+        user = auth.authenticate(username=username, password=password)
 
+        if user:
+            auth_token = jwt.encode({'username': user.username}, settings.JWT_SECRET_KEY)
 
-# @api_view(['POST'])
-# def signup(request):
-#     serializer = UserSerializer(data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         user = User.objects.get(username=request.data['username'])
-#         user.set_password(request.data['password'])
-#         user.save()
-#         token = Token.objects.create(user=user)
-#         return Response({"token": token.key, "user": serializer.data})
-#     return Response({serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            serializer = UserSerializer(user)
+            data = {'user' : serializer.data , 'token': auth_token}
+            return Response(data, status=status.HTTP_200_OK)
+        return Response({'datail': 'invalid credentials'} , status=status.HTTP_401_UNAUTHORIZED)
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# @api_view(['GET'])
-# @authentication_classes([SessionAuthentication, TokenAuthentication])
-# @permission_classes([IsAuthenticated])
-# def testToken(request):
-#     return Response("passed for {}".format(request.user.email))
-###################### List API ###########################
-
-
-class ListCreateAPIView(generics.ListCreateAPIView):
+class ListCreateAPIView(ListCreateAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
 
@@ -61,7 +52,7 @@ list_create_view = ListCreateAPIView.as_view()
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-class ListRetrieveAPIView(generics.RetrieveAPIView):
+class ListRetrieveAPIView(RetrieveAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
     lookup_field = 'pk'
@@ -72,7 +63,7 @@ list_retrieve_view = ListRetrieveAPIView.as_view()
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-class ListUpdateAPIView(generics.UpdateAPIView):
+class ListUpdateAPIView(UpdateAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
     lookup_field = 'pk'
@@ -86,7 +77,7 @@ list_update_view = ListUpdateAPIView.as_view()
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-class ListDeleteAPIView(generics.DestroyAPIView):
+class ListDeleteAPIView(DestroyAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
     lookup_field = 'pk'
@@ -99,7 +90,7 @@ list_delete_view = ListDeleteAPIView.as_view()
 ######################## items API #############################
 
 
-class ItemsCreateAPIView(generics.ListCreateAPIView):
+class ItemsCreateAPIView(ListCreateAPIView):
     queryset = ListItems.objects.all()
     serializer_class = ListItemsSerializer
 
@@ -112,7 +103,7 @@ items_create_view = ItemsCreateAPIView.as_view()
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-class ItemsRetrieveAPIView(generics.RetrieveAPIView):
+class ItemsRetrieveAPIView(RetrieveAPIView):
     queryset = ListItems.objects.all()
     serializer_class = ListItemsSerializer
     lookup_field = 'pk'
@@ -123,7 +114,7 @@ items_retrieve_view = ItemsRetrieveAPIView.as_view()
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-class ItemsUpdateAPIView(generics.UpdateAPIView):
+class ItemsUpdateAPIView(UpdateAPIView):
     queryset = ListItems.objects.all()
     serializer_class = ListItemsSerializer
     lookup_field = 'pk'
@@ -137,7 +128,7 @@ items_update_view = ItemsUpdateAPIView.as_view()
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-class ItemsDeleteAPIView(generics.DestroyAPIView):
+class ItemsDeleteAPIView(DestroyAPIView):
     queryset = ListItems.objects.all()
     serializer_class = ListItemsSerializer
     lookup_field = 'pk'
