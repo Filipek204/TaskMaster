@@ -20,10 +20,12 @@ loginForm.addEventListener("submit", async (e) => {
         });
         const data = await res.json();
         if (!res.ok) {
-                console.log("problem");
+                console.log(data);
                 return;
         }
-        window.localStorage.setItem("token", data.token);
+         console.log(data);
+        window.localStorage.setItem("token", JSON.stringify(data.token));
+        window.location.href = "../home"
     } catch(error) {
         console.log(error)
     }

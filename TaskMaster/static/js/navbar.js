@@ -1,10 +1,32 @@
 const listEndpoint = 'http://127.0.0.1:8000/api/list/'
+const endpoint = 'http://127.0.0.1:8000/api/get-profile/'
 btn = document.getElementById("create-list");
 modal = document.getElementById("popup-add-list-container");
 form = document.getElementById("form");
 closeListForm = document.getElementById("close");
 const navList = document.getElementById("lists")
 
+
+async function getProfile(url) {
+    try {
+        const res = await fetch(url, {
+           method:'GET',
+           headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            },
+
+        });
+        const data = await res.json();
+        if (!res.ok) {
+                console.log(data);
+                return;
+        }
+         console.log(data);
+    } catch(error) {
+        console.log(error)
+    }
+}
 
 async function navLists(url) {
     try {
@@ -24,7 +46,7 @@ async function navLists(url) {
         console.log(error)
     }
 }
-
+navList.onload = getProfile(endpoint)
 navList.onload = navLists(listEndpoint)
 btn.onclick = function () {
     modal.style.display = "block";

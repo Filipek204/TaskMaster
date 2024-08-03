@@ -7,10 +7,11 @@ from .forms import ListForm, ListItemsForm
 from .serializers import ListSerializer, ListItemsSerializer , UserSerializer
 from rest_framework.authtoken.models import Token
 import random
-from rest_framework import status
+from rest_framework import status, permissions
 from django.conf import settings
 from django.contrib import auth
 import jwt
+from django.contrib.auth.models import User
 #################### login Authentication API ######################
 class RegisterView(GenericAPIView):
     serializer_class = UserSerializer
@@ -39,6 +40,16 @@ class LoginView(GenericAPIView):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+
+class getProfile(RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+# ------------------------------------------------------------------
 class ListCreateAPIView(ListCreateAPIView):
     queryset = List.objects.all()
     serializer_class = ListSerializer
@@ -152,6 +163,7 @@ def home(request):
         'items': items,
         'random': random_list_items,
         'random_list': random_list,
+        'user': request.user
     }
     return render(request, "BaseApp/home.html", context)
 

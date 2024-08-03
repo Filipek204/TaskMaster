@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import addList, addItem, home, updateList, updateItem, deleteList, deleteItem, ListView, list_create_view, items_create_view, list_retrieve_view, items_retrieve_view, list_update_view, list_delete_view, items_update_view, items_delete_view, LoginView, RegisterView, loginView
+from .views import addList, addItem, home, updateList, updateItem, deleteList, deleteItem, ListView, list_create_view, items_create_view, list_retrieve_view, items_retrieve_view, list_update_view, list_delete_view, items_update_view, items_delete_view, LoginView, RegisterView, loginView, getProfile
 
 urlpatterns = [
     path('home/', home, name="home"),
@@ -16,7 +16,7 @@ urlpatterns = [
     path('delete-item/<str:pk>/', deleteItem, name="delete-item"),
 
     ################### API ###########################
-    
+    path('api/get-profile/', getProfile.as_view(), name="get-profile"),
     path('api/list/', list_create_view, name="api-list"),
     path('api/list/<str:pk>/', list_retrieve_view, name="api-list"),
     path('api/list/<str:pk>/update/', list_update_view, name="api-list"),
