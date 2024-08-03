@@ -4,40 +4,57 @@ from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from .models import List, ListItems
 from .forms import ListForm, ListItemsForm
-from .serializers import ListSerializer, ListItemsSerializer , UserSerializer
+from .serializers import ListSerializer, ListItemsSerializer, UserSerializer, CustomTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.authtoken.models import Token
 import random
-from rest_framework import status
-from django.conf import settings
+from rest_framework import status, permissions
 from django.contrib import auth
-import jwt
+# import jwt
 #################### login Authentication API ######################
+
+
 class RegisterView(GenericAPIView):
     serializer_class = UserSerializer
-    def post (self, request):
-        serializer = UserSerializer(data= request.data)
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LoginView(GenericAPIView):
-    serializer_class = UserSerializer
-    def post(self, request):
-        data = request.data
-        username = data.get('username', '')
-        password = data.get('password', '')
-        user = auth.authenticate(username=username, password=password)
 
-        if user:
-            auth_token = jwt.encode({'username': user.username}, settings.JWT_SECRET_KEY)
+# class RegisterView(CreateAPIView):
+#     serializer_class = RegisterSerializer
 
-            serializer = UserSerializer(user)
-            data = {'user' : serializer.data , 'token': auth_token}
-            return Response(data, status=status.HTTP_200_OK)
-        return Response({'datail': 'invalid credentials'} , status=status.HTTP_401_UNAUTHORIZED)
+# class LoginView(GenericAPIView):
+#     serializer_class = UserSerializer
+#     def post(self, request):
+#         data = request.data
+#         username = data.get('username')
+#         password = data.get('password')
+#         if (username and password):
+#             user = auth.authenticate(username=username, password=password)
+#             if user:
+        #     auth_token = jwt.encode({'username': user.username}, settings.JWT_SECRET_KEY)
 
+        #     serializer = UserSerializer(user)
+        #     data = {'user' : serializer.data , 'token': auth_token}
+        #     return Response(data, status=status.HTTP_200_OK)
+        # return Response({'datail': 'invalid credentials'} , status=status.HTTP_401_UNAUTHORIZED)
+class UserProfileView(RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 class ListCreateAPIView(ListCreateAPIView):
     queryset = List.objects.all()
@@ -155,8 +172,11 @@ def home(request):
     }
     return render(request, "BaseApp/home.html", context)
 
+
 def loginView(request):
     return render(request, "BaseApp/login.html", {})
+
+
 def registerView(request):
     return render(request, "BaseApp/register.html", {})
 

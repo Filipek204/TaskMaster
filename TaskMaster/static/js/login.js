@@ -1,5 +1,5 @@
 
-const loginEndpoint = 'http://127.0.0.1:8000/api/login/'
+const loginEndpoint = 'http://127.0.0.1:8000/api/token/'
 let loginForm = document.getElementById("login-form");
 
 
@@ -23,7 +23,10 @@ loginForm.addEventListener("submit", async (e) => {
                 console.log("problem");
                 return;
         }
-        window.localStorage.setItem("token", data.token);
+        console.log(data)
+        window.localStorage.setItem("access", data.access);
+        window.localStorage.setItem("refresh", data.refresh);
+        window.location.href= "../home"
     } catch(error) {
         console.log(error)
     }

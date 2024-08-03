@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv, find_dotenv
+from datetime import timedelta
+# from dotenv import load_dotenv, find_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,10 +41,34 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BaseApp',
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('BaseApp.backends.JWTAuthentication',)
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    # opcjonalne: czas życia tokena dostępowego
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    # opcjonalne: czas życia tokena odświeżania
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    # opcjonalne: rotacja tokenów odświeżania
+    'ROTATE_REFRESH_TOKENS': False,
+    # opcjonalne: czarna lista tokenów odświeżania po rotacji
+    'BLACKLIST_AFTER_ROTATION': True,
+    # opcjonalne: aktualizacja ostatniego logowania użytkownika
+    'UPDATE_LAST_LOGIN': False,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,              # klucz podpisywania JWT
+    'VERIFYING_KEY': None,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
 MIDDLEWARE = [
@@ -123,15 +148,15 @@ USE_L10N = True
 USE_TZ = True
 
 
-load_dotenv(find_dotenv())
-JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+# load_dotenv(find_dotenv())
+# JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS=[
+STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 # Default primary key field type
