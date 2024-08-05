@@ -1,5 +1,5 @@
 const listEndpoint = 'http://127.0.0.1:8000/api/list/'
-const profileEndpoint = 'http://127.0.0.1:3000/api/profile/'
+const profileEndpoint = 'http://127.0.0.1:8000/api/profile/'
 btn = document.getElementById("create-list");
 modal = document.getElementById("popup-add-list-container");
 form = document.getElementById("form");
@@ -12,7 +12,7 @@ async function profileInfo(url) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + JSON.stringify(window.localStorage.getItem('access'))
+                'Authorization': `Bearer ${window.localStorage.getItem('access')}`
            },
         });
         const data = await res.json();
@@ -29,9 +29,14 @@ async function profileInfo(url) {
 
 async function navLists(url) {
     try {
-        const res = await fetch(url)
+       const res = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.localStorage.getItem('access')}`
+           },
+        });
         const data = await res.json()
-    
         for (let list of data) {
             navList.innerHTML += `
                 <a class="nav-element" id="list-list" href="/list/${list.id}">
@@ -60,12 +65,11 @@ form.addEventListener('submit', async event => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' +  window.localStorage.getItem("token"),
+                'Authorization': `Bearer ${window.localStorage.getItem('access')}`,
             },
             body: JSON.stringify({
                 'title': event.target.Title.value,
                 'description': event.target.Description.value,
-                'user': jwt_decode(window.localStorage.getItem("token")).username,
             }),
         });
         const data = await res.json();
@@ -74,10 +78,6 @@ form.addEventListener('submit', async event => {
                 console.log("problem");
                 return;
         }
-        else {
-            
-        }
-        
         console.log(data);
         modal.style.display = "none";
         navList.innerHTML += `

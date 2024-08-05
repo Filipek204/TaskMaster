@@ -17,19 +17,21 @@ const listViewTitle = document.getElementById("item-view-title");
 let itemViewListTitle = document.getElementById("item-view-list-title");
 const delItem = document.getElementById("delete-item");
 let filteredData = [ ]
-
 async function list(url) {
     try {
-        const res = await fetch(`${url}${listID}/`)
+        const res = await fetch(`${url}${listID}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.localStorage.getItem('access')}`
+           },
+        });
         const data = await res.json()
         const date = new Date(data.created_at)
         listTitleData = data.title
         listTitle.innerHTML = `${data.title}`;
         listDescription.innerHTML = `${data.description}`;
         listCreatedAt.innerHTML = `${date.toLocaleString()}`;
-        
-        
-    
     } catch(error) {
         console.log(error)
     }
@@ -38,7 +40,13 @@ listView.onload = list(listEndpoint)
 
 async function listItems(url) {
     try {
-        const res = await fetch(url)
+       const res = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.localStorage.getItem('access')}`
+           },
+        });
         const data = await res.json()
         filteredData = data.filter(item => item.list==listID)
         for (let item of filteredData) {
@@ -85,20 +93,17 @@ closeItemForm.onclick = function () {
 }
 formItem.addEventListener('submit', async event => {
     event.preventDefault();
-    const title = document.getElementById("item-title").value;
-    const description = document.getElementById("item-description").value;
-    const dueDate = document.getElementById("Due-date").value;
     try {
         const res = await fetch(itemsEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' +  window.localStorage.getItem("token"),
+                'Authorization': `Bearer ${window.localStorage.getItem('access')}`,
             },
             body: JSON.stringify({
-                'title': title,
-                'description': description,
-                'due_date': dueDate,
+                'title': event.target.title.value,
+                'description': event.target.description.value,
+                'due_date': event.target.dueDate.value,
                 'done': false,
                 'list': listID,
             }),
@@ -112,19 +117,19 @@ formItem.addEventListener('submit', async event => {
         
         
         modalItem.style.display = "none";
-        // listView.innerHTML += `
-        //   <li class="list-element">
-        //     <div class="list-element-text">
+        listView.innerHTML += `
+          <li class="list-element">
+            <div class="list-element-text">
             
-        //     <div class="container">
-        //     <h3 class="item-view">${data.title}</h3>
-        //     <label>
-        //         <input type="checkbox">
-        //         <span class="checkmark"></span></label>
-        //     </div>
-        //     </div>
+            <div class="container">
+            <h3 class="item-view">${data.title}</h3>
+            <label>
+                <input type="checkbox">
+                <span class="checkmark"></span></label>
+            </div>
+            </div>
             
-        // </li>`;
+        </li>`;
         // elements = document.querySelectorAll('.item-view');
         // elements.forEach(( element, index ) => {
         //     element.addEventListener('click', event => {
@@ -137,8 +142,8 @@ formItem.addEventListener('submit', async event => {
         //         })
         //     });
         // });
-        listView.innerHTML =""
-        listItems(itemsEndpoint)
+        // listView.innerHTML =""
+        // listItems(itemsEndpoint)
     } catch (error) {
         console.log(error);
     }

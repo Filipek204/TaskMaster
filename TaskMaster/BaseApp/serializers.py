@@ -3,6 +3,7 @@ from .models import List, ListItems
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 class ListSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=50)
     description = serializers.CharField()
@@ -10,6 +11,7 @@ class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
         fields = "__all__"
+        read_only_fields = ['user']
 
 
 class ListItemsSerializer(serializers.ModelSerializer):

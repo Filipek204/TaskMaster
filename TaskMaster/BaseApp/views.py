@@ -57,11 +57,13 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class ListCreateAPIView(ListCreateAPIView):
-    queryset = List.objects.all()
     serializer_class = ListSerializer
+    
+    def get_queryset(self):
+        return List.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save()
+        serializer.save(user=self.request.user)
 
 
 list_create_view = ListCreateAPIView.as_view()
@@ -107,9 +109,11 @@ list_delete_view = ListDeleteAPIView.as_view()
 ######################## items API #############################
 
 
-class ItemsCreateAPIView(ListCreateAPIView):
-    queryset = ListItems.objects.all()
+class ItemsCreateAPIView(ListCreateAPIView):  
     serializer_class = ListItemsSerializer
+
+    def get_queryset(self):
+        return ListItems.objects.filter(list__user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save()
