@@ -173,6 +173,7 @@ def home(request):
         'items': items,
         'random': random_list_items,
         'random_list': random_list,
+        'user': request.user
     }
     return render(request, "BaseApp/home.html", context)
 

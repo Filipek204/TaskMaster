@@ -18,7 +18,6 @@ urlpatterns = [
     path('delete-item/<str:pk>/', deleteItem, name="delete-item"),
 
     ################### API ###########################
-
     path('api/list/', list_create_view, name="api-list"),
     path('api/list/<str:pk>/', list_retrieve_view, name="api-list"),
     path('api/list/<str:pk>/update/', list_update_view, name="api-list"),

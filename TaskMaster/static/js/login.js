@@ -20,7 +20,7 @@ loginForm.addEventListener("submit", async (e) => {
         });
         const data = await res.json();
         if (!res.ok) {
-                console.log("problem");
+                console.log(data);
                 return;
         }
         console.log(data)
