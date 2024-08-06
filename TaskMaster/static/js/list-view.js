@@ -24,7 +24,7 @@ async function list(url) {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${window.localStorage.getItem('access')}`
-           },
+            },
         });
         const data = await res.json()
         const date = new Date(data.created_at)
@@ -32,24 +32,23 @@ async function list(url) {
         listTitle.innerHTML = `${data.title}`;
         listDescription.innerHTML = `${data.description}`;
         listCreatedAt.innerHTML = `${date.toLocaleString()}`;
-    } catch(error) {
+    } catch (error) {
         console.log(error)
     }
+    window.onload = list(listEndpoint)
 }
-listView.onload = list(listEndpoint)
-
-async function listItems(url) {
-    try {
-       const res = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${window.localStorage.getItem('access')}`
-           },
-        });
-        const data = await res.json()
-        filteredData = data.filter(item => item.list==listID)
-        for (let item of filteredData) {
+    async function listItems(url) {
+        try {
+            const res = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${window.localStorage.getItem('access')}`
+                },
+            });
+            const data = await res.json()
+            filteredData = data.filter(item => item.list == listID)
+            for (let item of filteredData) {
                 listView.innerHTML += `
                 <li class="list-element">
             <div class="list-element-text">
@@ -63,61 +62,61 @@ async function listItems(url) {
             </div>
             
         </li>`;
-        }
-    elements = document.querySelectorAll('.item-view');
-        elements.forEach(( element,index )   => {
-            element.addEventListener('click', event => {
-                viewItemModal.style.display = "block";
-                listViewTitle.innerHTML = filteredData[index].title
-                itemViewListTitle.innerHTML = listTitleData
-                delItem.addEventListener('click', () => {
-                    deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
-                    viewItemModal.style.display = "none";
-                })
+            }
+            elements = document.querySelectorAll('.item-view');
+            elements.forEach((element, index) => {
+                element.addEventListener('click', event => {
+                    viewItemModal.style.display = "block";
+                    listViewTitle.innerHTML = filteredData[index].title
+                    itemViewListTitle.innerHTML = listTitleData
+                    delItem.addEventListener('click', () => {
+                        deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
+                        viewItemModal.style.display = "none";
+                    })
+                });
             });
-        });
 
-    } catch(error) {
-        console.log(error)
+        } catch (error) {
+            console.log(error)
+        }
     }
-}
 
-listView.onload = listItems(itemsEndpoint)
+    window.onload = listItems(itemsEndpoint)
 
 
-btn.onclick = function () {
-    modalItem.style.display = "block";
-}
-closeItemForm.onclick = function () {
-    modalItem.style.display = "none";
-}
-formItem.addEventListener('submit', async event => {
-    event.preventDefault();
-    try {
-        const res = await fetch(itemsEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${window.localStorage.getItem('access')}`,
-            },
-            body: JSON.stringify({
-                'title': event.target.title.value,
-                'description': event.target.description.value,
-                'due_date': event.target.dueDate.value,
-                'done': false,
-                'list': listID,
-            }),
-        });
-        const data = await res.json();
+    btn.onclick = function () {
+        modalItem.style.display = "block";
+    }
+    closeItemForm.onclick = function () {
+        modalItem.style.display = "none";
+    }
+    formItem.addEventListener('submit', async event => {
+        event.preventDefault();
+        try {
+            const res = await fetch(itemsEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${window.localStorage.getItem('access')}`,
+                },
+                body: JSON.stringify({
+                    'title': event.target.title.value,
+                    'description': event.target.description.value,
+                    'due_date': event.target.dueDate.value,
+                    'done': false,
+                    'list': listID,
+                }),
+            });
+            const data = await res.json();
         
-        if (!res.ok) {
+            if (!res.ok) {
                 console.log("problem");
                 return;
             }
         
         
-        modalItem.style.display = "none";
-        listView.innerHTML += `
+            modalItem.style.display = "none";
+            listView.innerHTML += `
           <li class="list-element">
             <div class="list-element-text">
             
@@ -130,39 +129,39 @@ formItem.addEventListener('submit', async event => {
             </div>
             
         </li>`;
-        // elements = document.querySelectorAll('.item-view');
-        // elements.forEach(( element, index ) => {
-        //     element.addEventListener('click', event => {
-        //         viewItemModal.style.display = "block";
-        //         listViewTitle.innerHTML = filteredData[index].title
-        //         itemViewListTitle.innerHTML = listTitleData
-        //         delItem.addEventListener('click', () => {
-        //             deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
-        //             viewItemModal.style.display = "none";
-        //         })
-        //     });
-        // });
-        // listView.innerHTML =""
-        // listItems(itemsEndpoint)
-    } catch (error) {
-        console.log(error);
+            // elements = document.querySelectorAll('.item-view');
+            // elements.forEach(( element, index ) => {
+            //     element.addEventListener('click', event => {
+            //         viewItemModal.style.display = "block";
+            //         listViewTitle.innerHTML = filteredData[index].title
+            //         itemViewListTitle.innerHTML = listTitleData
+            //         delItem.addEventListener('click', () => {
+            //             deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
+            //             viewItemModal.style.display = "none";
+            //         })
+            //     });
+            // });
+            // listView.innerHTML =""
+            // listItems(itemsEndpoint)
+        } catch (error) {
+            console.log(error);
+        }
+    })
+    closeViewItemForm.onclick = function () {
+        viewItemModal.style.display = "none";
     }
-})
-closeViewItemForm.onclick = function () {
-    viewItemModal.style.display = "none";
-}
-async function deleteItem(url) {
-    try {
-        const res = await fetch(url, {
-            method: 'DELETE',
-        });
-        if (!res.ok) {
+    async function deleteItem(url) {
+        try {
+            const res = await fetch(url, {
+                method: 'DELETE',
+            });
+            if (!res.ok) {
                 console.log("problem");
                 return;
+            }
+            listView.innerHTML = ""
+            listItems(itemsEndpoint)
+        } catch (error) {
+            console.log(error);
         }
-        listView.innerHTML =""
-        listItems(itemsEndpoint)
-    } catch (error) {
-        console.log(error);
     }
-}

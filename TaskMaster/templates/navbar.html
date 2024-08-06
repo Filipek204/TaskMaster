@@ -1,77 +1,79 @@
 {% load static %}
-{% block style %}
-<link rel="stylesheet" href="{% static 'style/navbar.css' %}">
-{% endblock style %}
-<div id="navbar-container">
-    <div id="all-nav-container">
-        <div id="no-movable-content">
-            <a href="{% url 'home' %}" id="nav-logo">
-                <img id="logo-image" src="{% static 'images/time-management.png' %}" alt="logo">
-            </a>
-            <div id="nav-links-container">
-                <ul id="nav-links">
-                    <li>
-                        <a href="#" class="nav-element" id="calendar">
-                            <img src="{% static 'images/calendar.png' %}" alt="calendar icon" class="icon" id="calendar-icon">
-                            <p class="nav-text">Calendar</p>
-                        </a>
-                    </li> 
-                    
-                    <li >
-                        <a class="nav-element" id="messages" href="#">
-                            <img src="{% static 'images/chatting.png' %}" alt="messages icon" class="icon" id="messages-icon">
-                            <p class="nav-text">Messages</p>
-                        </a>
-                    </li>
-                    
-                    <li >
-                        <a class="nav-element" id="chart" href="#">
-                            <img src="{% static 'images/line-chart.png' %}" alt="chart icon" class="icon" id="chart-icon">
-                            <p class="nav-text">Charts</p>
-                        </a>
-                    </li>
-                </ul>
-                <hr id="nav-hr">
-            </div>
-        </div>
-        <div id="nav-list-container">
-            <ul id="nav-list">
-                <li id="lists"></li>
-                  
-                    
-                
+<nav class="navbar navbar-expand-xl">
+    <div class="container h-100">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <h1 class="tm-site-title mb-0">Product Admin</h1>
+        </a>
+        <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fas fa-bars tm-nav-icon"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto h-100">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="far fa-file-alt"></i>
+                        <span>
+                            Reports <i class="fas fa-angle-down"></i>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Daily Report</a>
+                        <a class="dropdown-item" href="#">Weekly Report</a>
+                        <a class="dropdown-item" href="#">Yearly Report</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">
+                        <i class="fas fa-shopping-cart"></i>
+                        Products
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="accounts.html">
+                        <i class="far fa-user"></i>
+                        Accounts
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cog"></i>
+                        <span>
+                            Settings <i class="fas fa-angle-down"></i>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Billing</a>
+                        <a class="dropdown-item" href="#">Customize</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link d-block" href="{% url 'login' %}">
+                        Admin, <b>Logout</b>
+                    </a>
+                </li>
             </ul>
         </div>
-        <div class="nav-element" id="create-list">
-            <img src="{% static 'images/create.png' %}" alt="create icon" class="icon" id="create-icon">
-            <p class="nav-text"> Create list</p>
     </div>
-    <hr id="nav-hr">
-    <div class="nav-element" id="settings">
-        <img src="{% static 'images/settings.png' %}" alt="create icon" class="icon" id="settings-icon">
-        <p class="nav-text"> Settings</p>
-    </div>
-    </div>
-    
-</div>
 
-<div id="search-container">
-<a href="{% url 'login' %}">login</a>
-</div>
-<div id="popup-add-list-container">
-    <div id="add-list-window">
-        <h2>Create List</h2>
-        <div id="close">close</div>
-        <form id="form">
-            <label for="Title">Title</label>
-            <input type="text" name="Title" id="Title">
-            <label for="Description">Description</label>
-            <textarea name="Description" id="Description" cols="30" rows="10"></textarea>
-            <input type="submit" value="submit">
-            <input type="reset" value="reset">
-        </form>
-    </div>
-</div>
+</nav>
+
 {% block script %}
 <script src="{% static 'js/navbar.js' %}"></script>
 {% endblock %}

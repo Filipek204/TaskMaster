@@ -56,7 +56,7 @@ SIMPLE_JWT = {
     # opcjonalne: czas życia tokena odświeżania
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     # opcjonalne: rotacja tokenów odświeżania
-    'ROTATE_REFRESH_TOKENS': False,
+    'ROTATE_REFRESH_TOKENS': True,
     # opcjonalne: czarna lista tokenów odświeżania po rotacji
     'BLACKLIST_AFTER_ROTATION': True,
     # opcjonalne: aktualizacja ostatniego logowania użytkownika
@@ -147,9 +147,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# load_dotenv(find_dotenv())
-# JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
