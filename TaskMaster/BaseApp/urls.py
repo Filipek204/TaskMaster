@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import addList, addItem, home, updateList, updateItem, deleteList, deleteItem, ListView, list_create_view, items_create_view, list_retrieve_view, items_retrieve_view, list_update_view, list_delete_view, items_update_view, CustomTokenObtainPairView,  items_delete_view, RegisterView, loginView, UserProfileView
+from .views import addList, addItem, home, updateList, updateItem, deleteList, deleteItem, ListView, loginView, CustomTokenObtainPairView, RegisterView,  UserProfileView, RetrieveListAPIView, CreateListAPIView, DeleteListAPIView, UpdateListAPIView, CreateItemAPIView, RetrieveUserItemAPIView, RetrieveListItemAPIView, UpdateItemAPIView, DeleteItemAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 urlpatterns = [
     path('home/', home, name="home"),
@@ -11,20 +11,21 @@ urlpatterns = [
 
     path('add-list/', addList, name="add-list"),
     path('update-list/<str:pk>/', updateList, name="update-list"),
-    path('list/<str:pk>/', ListView, name="list"),
+    path('lists/<str:pk>/', ListView, name="lists"),
     path('delete-list/<str:pk>/', deleteList, name="delete-list"),
     path('add-item/<str:pk>/', addItem, name="add-item"),
     path('update-item/<str:pk>/', updateItem, name="update-item"),
     path('delete-item/<str:pk>/', deleteItem, name="delete-item"),
 
-    ################### API ###########################
-    path('api/list/', list_create_view, name="api-list"),
-    path('api/list/<str:pk>/', list_retrieve_view, name="api-list"),
-    path('api/list/<str:pk>/update/', list_update_view, name="api-list"),
-    path('api/list/<str:pk>/delete/', list_delete_view, name="api-list"),
+    ################### API CRUD ###########################
+    path('api/list/create/', CreateListAPIView.as_view(), name="create-list-api"),
+    path('api/list/', RetrieveListAPIView.as_view(), name="retrieve-list-api"),
+    path('api/list/<str:pk>/update/', UpdateListAPIView.as_view(), name="update-list-api"),
+    path('api/list/<str:pk>/delete/', DeleteListAPIView.as_view(), name="delete-list-api"),
 
-    path('api/items/', items_create_view, name="api-list"),
-    path('api/items/<str:pk>/', items_retrieve_view, name="api-list"),
-    path('api/items/<str:pk>/update/', items_update_view, name="api-list"),
-    path('api/items/<str:pk>/delete/', items_delete_view, name="api-list"),
+    path('api/items/create/', CreateItemAPIView.as_view(), name="create-item-api"),
+    path('api/items/<str:pk>/', RetrieveListItemAPIView.as_view(), name="retrieve-list-item-api"),
+    path('api/items/', RetrieveUserItemAPIView.as_view(), name="retrieve-user-item-api"),
+    path('api/items/<str:pk>/update/',UpdateItemAPIView.as_view(), name="update-item"),
+    path('api/items/<str:pk>/delete/',DeleteItemAPIView.as_view(), name="delete-item"),
 ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, ListCreateAPIView, DestroyAPIView
+from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView, ListAPIView
 from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from .models import List, ListItems
@@ -24,26 +24,14 @@ class RegisterView(GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-# class RegisterView(CreateAPIView):
-#     serializer_class = RegisterSerializer
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
-# class LoginView(GenericAPIView):
-#     serializer_class = UserSerializer
-#     def post(self, request):
-#         data = request.data
-#         username = data.get('username')
-#         password = data.get('password')
-#         if (username and password):
-#             user = auth.authenticate(username=username, password=password)
-#             if user:
-        #     auth_token = jwt.encode({'username': user.username}, settings.JWT_SECRET_KEY)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        #     serializer = UserSerializer(user)
-        #     data = {'user' : serializer.data , 'token': auth_token}
-        #     return Response(data, status=status.HTTP_200_OK)
-        # return Response({'datail': 'invalid credentials'} , status=status.HTTP_401_UNAUTHORIZED)
-class UserProfileView(RetrieveAPIView):
+class UserProfileView(GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -51,91 +39,62 @@ class UserProfileView(RetrieveAPIView):
         return Response(serializer.data)
 
 
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#################### List CRUD API ######################
 
+class CreateListAPIView(CreateAPIView):
+    serializer_class = ListSerializer
 
-class ListCreateAPIView(ListCreateAPIView):
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+class RetrieveListAPIView(ListAPIView):
     serializer_class = ListSerializer
     
     def get_queryset(self):
         return List.objects.filter(user=self.request.user)
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+class UpdateListAPIView(UpdateAPIView):
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    lookup_field = 'pk'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+class DeleteListAPIView(DestroyAPIView):
+    queryset = List.objects.all()
+    serializer_class = ListSerializer
+    lookup_field = 'pk'
+
+
+######################## Item CRUD API #############################
+class CreateItemAPIView(CreateAPIView):
+    serializer_class = ListItemsSerializer
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-list_create_view = ListCreateAPIView.as_view()
-
-# - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-class ListRetrieveAPIView(RetrieveAPIView):
-    queryset = List.objects.all()
-    serializer_class = ListSerializer
-    lookup_field = 'pk'
-
-
-list_retrieve_view = ListRetrieveAPIView.as_view()
-
-# - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-class ListUpdateAPIView(UpdateAPIView):
-    queryset = List.objects.all()
-    serializer_class = ListSerializer
-    lookup_field = 'pk'
-
-    def perform_update(self, serializer):
         serializer.save()
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-list_update_view = ListUpdateAPIView.as_view()
-
-# - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-class ListDeleteAPIView(DestroyAPIView):
-    queryset = List.objects.all()
-    serializer_class = ListSerializer
-    lookup_field = 'pk'
-
-    def perform_destroy(self, instance):
-        super().perform_destroy(instance)
-
-
-list_delete_view = ListDeleteAPIView.as_view()
-######################## items API #############################
-
-
-class ItemsCreateAPIView(ListCreateAPIView):  
+class RetrieveUserItemAPIView(RetrieveAPIView):  
     serializer_class = ListItemsSerializer
 
     def get_queryset(self):
         return ListItems.objects.filter(list__user=self.request.user)
 
-    def perform_create(self, serializer):
-        serializer.save()
-
-
-items_create_view = ItemsCreateAPIView.as_view()
-
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-
-class ItemsRetrieveAPIView(RetrieveAPIView):
-    queryset = ListItems.objects.all()
+class RetrieveListItemAPIView(ListAPIView):
     serializer_class = ListItemsSerializer
-    lookup_field = 'pk'
-
-
-items_retrieve_view = ItemsRetrieveAPIView.as_view()
+    def get_queryset(self):
+        list_pk=self.kwargs["pk"]
+        return ListItems.objects.filter(list_id=list_pk)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-
-class ItemsUpdateAPIView(UpdateAPIView):
+class UpdateItemAPIView(UpdateAPIView):
     queryset = ListItems.objects.all()
     serializer_class = ListItemsSerializer
     lookup_field = 'pk'
@@ -143,22 +102,15 @@ class ItemsUpdateAPIView(UpdateAPIView):
     def perform_update(self, serializer):
         serializer.save()
 
-
-items_update_view = ItemsUpdateAPIView.as_view()
-
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-
-class ItemsDeleteAPIView(DestroyAPIView):
+class DeleteItemAPIView(DestroyAPIView):
     queryset = ListItems.objects.all()
     serializer_class = ListItemsSerializer
     lookup_field = 'pk'
 
     def perform_destroy(self, instance):
         super().perform_destroy(instance)
-
-
-items_delete_view = ItemsDeleteAPIView.as_view()
 
 ###################### Home page ##########################
 
@@ -188,15 +140,7 @@ def registerView(request):
 
 
 def ListView(request, pk):
-    list = List.objects.get(id=pk)
-    lists = List.objects.all()
-    items = ListItems.objects.filter(list=List.objects.get(id=pk))
-    context = {
-        'list': list,
-        'lists': lists,
-        'items': items,
-    }
-    return render(request, "BaseApp/list-view.html", context)
+    return render(request, "BaseApp/lists.html",{})
 
 
 def addList(request):

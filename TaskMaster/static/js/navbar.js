@@ -1,9 +1,4 @@
 const Endpoint = 'http://127.0.0.1:8000/api/'
-btn = document.getElementById("create-list");
-modal = document.getElementById("popup-add-list-container");
-form = document.getElementById("form");
-closeListForm = document.getElementById("close");
-const navList = document.getElementById("lists");
 
 
 
@@ -76,36 +71,40 @@ const navList = document.getElementById("lists");
 // })
 
 
-async function refreshToken(url){
-try {
-    const res = await fetch(`${url}token/refresh/`, {
+async function refreshToken() {
+    try {
+        const res = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${window.localStorage.getItem('access')}`
-        },
-            body: {'refresh': window.localStorage.getItem('refresh')}},
-    );
-    const data = await res.json()
-    if (!res.ok) {
-        console.log("problem")
-    }
-    window.localStorage.setItem("access", data.access);
-    window.localStorage.setItem("refresh", data.refresh);
-} catch(error) {
-    console.log(error)
-    }
-}
-function setupTokenRefresh(url) {
-    setInterval(async () => {
-        try {
-            const data = await refreshToken(url);
-            console.log('New Access Token:', data.access);
-            // Save the new access token for further use
-        } catch (error) {
-            console.error('Error refreshing token:', error);
+            },
+            body: JSON.stringify({ refresh: window.localStorage.getItem('refresh') })
+        });
+
+        if (!res.ok) {
+            console.log(res.status);
+            return; // Return null or handle error as needed
         }
-    }, 14 * 60 * 1000); // Refresh every 14 minutes
+
+        const data = await res.json();
+
+        // Save new tokens to localStorage
+        window.localStorage.setItem('access', data.access);
+        window.localStorage.setItem('refresh', data.refresh);
+        console.log(data)
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-    window.onload=setupTokenRefresh(Endpoint)
+function setupTokenRefresh() {
+    const refreshInterval = 14 * 60 * 1000; // 14 minutes
+
+    setInterval(async () => {
+        await refreshToken();
+    }, refreshInterval);
+}
+
+// Call this function when your app initializes
+setupTokenRefresh();
