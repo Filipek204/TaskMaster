@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="container tm-mt-big tm-mb-big">
+    <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+            <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="tm-block-title d-inline-block">Add Product</h2>
+                    </div>
+                </div>
+                <div class="row tm-edit-product-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12">
+                        <form action="" class="tm-edit-product-form" id="form-add-item">
+                            <div class="form-group mb-3">
+                                <label for="name">Task Name
+                                </label>
+                                <input id="name" name="name" type="text" class="form-control validate" required />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="description">Description</label>
+                                <textarea name="description" class="form-control validate" rows="3" required></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                    <label for="due_date">Due Date
+                                    </label>
+                                    <input id="due_date" name="due_date" type="date" class="form-control validate"
+                                        data-large-mode="true" />
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} 
+{% block script %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<!-- https://jquery.com/download/ -->
+<script src="{% static 'jquery-ui-datepicker/jquery-ui.min.js' %}"></script>
+<!-- https://jqueryui.com/download/ -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- https://getbootstrap.com/ -->
+<script src="{% static 'js/add-item.js' %}"></script>
+<script>
+    // $(function () {
+    //     $("#due_date").datepicker();
+    // });
+</script>
+{% endblock %}

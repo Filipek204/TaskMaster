@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import addList, addItem, home, updateList, updateItem, deleteList, deleteItem, ListView, loginView, CustomTokenObtainPairView, RegisterView,  UserProfileView, RetrieveListAPIView, CreateListAPIView, DeleteListAPIView, UpdateListAPIView, CreateItemAPIView, RetrieveUserItemAPIView, RetrieveListItemAPIView, UpdateItemAPIView, DeleteItemAPIView
+from .views import addList, home, updateList, updateItem, deleteList, deleteItem, ListView, loginView, addItemView, CustomTokenObtainPairView, RegisterView,  UserProfileView, RetrieveListAPIView, CreateListAPIView, DeleteListAPIView, UpdateListAPIView, CreateItemAPIView, RetrieveUserItemAPIView, RetrieveListItemAPIView, UpdateItemAPIView, DeleteItemAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 urlpatterns = [
     path('home/', home, name="home"),
@@ -11,9 +11,9 @@ urlpatterns = [
 
     path('add-list/', addList, name="add-list"),
     path('update-list/<str:pk>/', updateList, name="update-list"),
-    path('lists/<str:pk>/', ListView, name="lists"),
+    path('list/<str:pk>/', ListView, name="list"),
     path('delete-list/<str:pk>/', deleteList, name="delete-list"),
-    path('add-item/<str:pk>/', addItem, name="add-item"),
+    path('add-item/<str:pk>/', addItemView, name="add-item"),
     path('update-item/<str:pk>/', updateItem, name="update-item"),
     path('delete-item/<str:pk>/', deleteItem, name="delete-item"),
 

@@ -5,6 +5,9 @@ const listID = listUrl.pathname.split('/')[2]
 
 let tasksContainer = document.getElementById("tasks-container");
 let listsContainer = document.getElementById("lists-container");
+let taskButtons = document.getElementById("task-buttons");
+let listButtons = document.getElementById("list-buttons");
+
 async function lists(url) {
     try {
         const res = await fetch(url, {
@@ -17,20 +20,28 @@ async function lists(url) {
         if (!res.ok) {
                 console.log("problem");
                 return;
-        }   
+        }
+        // const date = new Date(data.created_at)
         const data = await res.json()
-        const date = new Date(data.created_at)
+        let content = ''
         for(let list of data){
-            listsContainer.innerHTML +=
+            content +=
                 `<tr>
-                                <td class="tm-product-name">${list.title}</td>
-                                <td class="text-center">
+                    
+                        <td class="tm-product-name" onClick="goTo(${list.id})">${list.title}</td>
+                        
+                        <td class="text-center">
                                     <a href="#" class="tm-product-delete-link">
                                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                     </a>
                                 </td>
-                            </tr>`;
+                            </tr>
+                            `;
         }
+        listsContainer.innerHTML = content;
+       listButtons.innerHTML=` <button class="btn btn-primary btn-block text-uppercase mb-3">
+                    Add new list
+                </button>`
     } catch (error) {
         console.log(error)
     }
@@ -67,6 +78,10 @@ async function lists(url) {
                     </td>
                 </tr>`;
             }
+            taskButtons.innerHTML = `<a href="/add-item/${listID}" class="btn btn-primary btn-block text-uppercase mb-3">Add new task</a>
+                    <button class="btn btn-primary btn-block text-uppercase">
+                        Delete selected tasks
+                    </button>`;
         } catch (error) {
             console.log(error)
         }
@@ -74,71 +89,12 @@ async function lists(url) {
 
     window.onload = listItems(itemsEndpoint)
     window.onload = lists(listsEndpoint)
+    function goTo(id) {
+        window.location.href = `../${id}`;
+    }
 
 
-    // btn.onclick = function () {
-    //     modalItem.style.display = "block";
-    // }
-    // closeItemForm.onclick = function () {
-    //     modalItem.style.display = "none";
-    // }
-    // formItem.addEventListener('submit', async event => {
-    //     event.preventDefault();
-    //     try {
-    //         const res = await fetch(itemsEndpoint, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${window.localStorage.getItem('access')}`,
-    //             },
-    //             body: JSON.stringify({
-    //                 'title': event.target.title.value,
-    //                 'description': event.target.description.value,
-    //                 'due_date': event.target.dueDate.value,
-    //                 'done': false,
-    //                 'list': listID,
-    //             }),
-    //         });
-    //         const data = await res.json();
-        
-    //         if (!res.ok) {
-    //             console.log("problem");
-    //             return;
-    //         }
-        
-        
-    //         modalItem.style.display = "none";
-    //         listView.innerHTML += `
-    //       <li class="list-element">
-    //         <div class="list-element-text">
-            
-    //         <div class="container">
-    //         <h3 class="item-view">${data.title}</h3>
-    //         <label>
-    //             <input type="checkbox">
-    //             <span class="checkmark"></span></label>
-    //         </div>
-    //         </div>
-            
-    //     </li>`;
-    //         // elements = document.querySelectorAll('.item-view');
-    //         // elements.forEach(( element, index ) => {
-    //         //     element.addEventListener('click', event => {
-    //         //         viewItemModal.style.display = "block";
-    //         //         listViewTitle.innerHTML = filteredData[index].title
-    //         //         itemViewListTitle.innerHTML = listTitleData
-    //         //         delItem.addEventListener('click', () => {
-    //         //             deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
-    //         //             viewItemModal.style.display = "none";
-    //         //         })
-    //         //     });
-    //         // });
-    //         // listView.innerHTML =""
-    //         // listItems(itemsEndpoint)
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // })
+    
     // closeViewItemForm.onclick = function () {
     //     viewItemModal.style.display = "none";
     // }

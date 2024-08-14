@@ -107,4 +107,4 @@ function setupTokenRefresh() {
 }
 
 // Call this function when your app initializes
-setupTokenRefresh();
+window.onload = setupTokenRefresh();

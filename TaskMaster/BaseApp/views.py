@@ -136,8 +136,10 @@ def loginView(request):
 def registerView(request):
     return render(request, "BaseApp/register.html", {})
 
-####################################################### List CRUD ###############################################################
 
+####################################################### List CRUD ###############################################################
+def addItemView(request, pk):
+    return render(request, "BaseApp/add-item.html", {})
 
 def ListView(request, pk):
     return render(request, "BaseApp/lists.html",{})

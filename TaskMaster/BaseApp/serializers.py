@@ -5,9 +5,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class ListSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(max_length=50)
-    description = serializers.CharField()
-
     class Meta:
         model = List
         fields = "__all__"
@@ -15,11 +12,6 @@ class ListSerializer(serializers.ModelSerializer):
 
 
 class ListItemsSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(max_length=50)
-    description = serializers.CharField()
-    done = serializers.BooleanField(default=False)
-    due_date = serializers.DateTimeField()
-
     class Meta:
         model = ListItems
         fields = "__all__"
