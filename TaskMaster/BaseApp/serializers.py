@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
-        fields = "__all__"
+        fields = ['id', 'title', 'description']
         read_only_fields = ['user']
 
 

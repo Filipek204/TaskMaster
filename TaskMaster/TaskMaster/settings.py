@@ -46,8 +46,9 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+        'rest_framework.authentication.SessionAuthentication',  # For session-based auth
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # For JWT auth
+    ),
 }
 
 SIMPLE_JWT = {
@@ -152,7 +153,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+LOGIN_URL = '/login/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]

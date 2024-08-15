@@ -1,6 +1,27 @@
 const Endpoint = 'http://127.0.0.1:8000/api/'
 
+async function logout() {
+    try {
+        const res = await fetch(`${Endpoint}logout/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.localStorage.getItem('access')}`
+            },
+            body: JSON.stringify({ 'refresh': window.localStorage.getItem('refresh') })
+        });
 
+        if (!res.ok) {
+            console.log(res.status);
+            return; // Return null or handle error as needed
+        }
+        // Save new tokens to localStorage
+        window.localStorage.removeItem('access');
+        window.localStorage.removeItem('refresh');
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 
@@ -73,13 +94,13 @@ const Endpoint = 'http://127.0.0.1:8000/api/'
 
 async function refreshToken() {
     try {
-        const res = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+        const res = await fetch(`${Endpoint}token/refresh/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${window.localStorage.getItem('access')}`
             },
-            body: JSON.stringify({ refresh: window.localStorage.getItem('refresh') })
+            body: JSON.stringify({ 'refresh': window.localStorage.getItem('refresh') })
         });
 
         if (!res.ok) {

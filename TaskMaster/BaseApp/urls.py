@@ -1,21 +1,18 @@
 from django.urls import path, include
-from .views import addList, home, updateList, updateItem, deleteList, deleteItem, ListView, loginView, addItemView, CustomTokenObtainPairView, RegisterView,  UserProfileView, RetrieveListAPIView, CreateListAPIView, DeleteListAPIView, UpdateListAPIView, CreateItemAPIView, RetrieveUserItemAPIView, RetrieveListItemAPIView, UpdateItemAPIView, DeleteItemAPIView
+from .views import home, ListView, loginView, addItemView, addListView, CustomTokenObtainPairView, RegisterView, LogoutView,  UserProfileView, RetrieveListAPIView, CreateListAPIView, DeleteListAPIView, UpdateListAPIView, CreateItemAPIView, RetrieveUserItemAPIView, RetrieveListItemAPIView, UpdateItemAPIView, DeleteItemAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 urlpatterns = [
     path('home/', home, name="home"),
     path('login/', loginView, name="login"),
     path('api/profile/', UserProfileView.as_view(), name="get-profile"),
     path('register/', RegisterView.as_view(), name="register"),
+    path('api/logout/', LogoutView.as_view(), name='logout'),
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('add-list/', addList, name="add-list"),
-    path('update-list/<str:pk>/', updateList, name="update-list"),
     path('list/<str:pk>/', ListView, name="list"),
-    path('delete-list/<str:pk>/', deleteList, name="delete-list"),
     path('add-item/<str:pk>/', addItemView, name="add-item"),
-    path('update-item/<str:pk>/', updateItem, name="update-item"),
-    path('delete-item/<str:pk>/', deleteItem, name="delete-item"),
+    path('add-list/', addListView, name="add-list"),
 
     ################### API CRUD ###########################
     path('api/list/create/', CreateListAPIView.as_view(), name="create-list-api"),

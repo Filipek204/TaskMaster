@@ -1,0 +1,1 @@
+- changing status of task by clicking on them (first click-[red border - didn't start],second click-[ yellow border - in progres],third click - [ green border/ deleting task - finished], fourth click - [deleting task])

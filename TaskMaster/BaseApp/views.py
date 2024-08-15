@@ -1,18 +1,33 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView, ListAPIView
-from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 from .models import List, ListItems
-from .forms import ListForm, ListItemsForm
 from .serializers import ListSerializer, ListItemsSerializer, UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.authtoken.models import Token
-import random
 from rest_framework import status, permissions
-from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from rest_framework_simplejwt.tokens import RefreshToken
 # import jwt
 #################### login Authentication API ######################
 
+
+
+
+class LogoutView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            # Get the refresh token from the request body
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            # Blacklist the token
+            token.blacklist()
+
+            return Response(status=205)  
+        except Exception as e:
+            return Response(status=400)  
 
 class RegisterView(GenericAPIView):
     serializer_class = UserSerializer
@@ -69,8 +84,8 @@ class DeleteListAPIView(DestroyAPIView):
     serializer_class = ListSerializer
     lookup_field = 'pk'
 
-
 ######################## Item CRUD API #############################
+
 class CreateItemAPIView(CreateAPIView):
     serializer_class = ListItemsSerializer
     def perform_create(self, serializer):
@@ -112,126 +127,32 @@ class DeleteItemAPIView(DestroyAPIView):
     def perform_destroy(self, instance):
         super().perform_destroy(instance)
 
-###################### Home page ##########################
-
+###################### Page Views ##########################
 
 def home(request):
-    list = List.objects.all()
-    random_list = random.choice(list)
-    random_list_items = ListItems.objects.filter(list=random_list)[:5]
-    items = ListItems.objects.order_by("due_date")[:5]
-    context = {
-        'lists': list,
-        'items': items,
-        'random': random_list_items,
-        'random_list': random_list,
-    }
-    return render(request, "BaseApp/home.html", context)
-
+    return render(request, "BaseApp/home.html", {})
+# - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def loginView(request):
     return render(request, "BaseApp/login.html", {})
 
+# - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def registerView(request):
     return render(request, "BaseApp/register.html", {})
 
+# - - - - - - - - - - - - - - - - - - - - - - - - -
 
-####################################################### List CRUD ###############################################################
 def addItemView(request, pk):
     return render(request, "BaseApp/add-item.html", {})
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def addListView(request):
+    return render(request, "BaseApp/add-list.html", {})
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def ListView(request, pk):
     return render(request, "BaseApp/lists.html",{})
 
-
-def addList(request):
-    form = ListForm()
-    list = List()
-    lists = List.objects.all()
-    if request.method == "POST":
-        form = ListForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {
-        "forms": form,
-        "lists": lists,
-        "list": list
-    }
-    return render(request, "BaseApp/list-form.html", context)
-
-
-def updateList(request, pk):
-    list = List.objects.get(id=pk)
-    form = ListForm(instance=list)
-
-    if request.method == "POST":
-        form = ListForm(request.POST, instance=list)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {
-        "form": form,
-        "lists": list
-    }
-    return render(request, "BaseApp/list-form.html", context)
-
-
-def deleteList(request, pk):
-    list = List.objects.get(id=pk)
-    items = ListItems.objects.filter(list=list)
-    if request.method == "POST":
-        list.delete()
-        items.delete()
-        return redirect('home')
-    context = {
-        "lists": list
-    }
-    return render(request, "BaseApp/delete-list.html", context)
-
-####################################################### Item CRUD ###############################################################
-
-
-def addItem(request, pk):
-    form = ListItemsForm()
-    list = List.objects.all()
-    items = ListItems.objects.filter(list=List.objects.get(id=pk))
-    if request.method == "POST":
-        form = ListItemsForm(request.POST)
-        if form.is_valid():
-            form.instance.list = List.objects.get(id=pk)
-            form.save()
-    context = {
-        "form": form,
-        "items": items,
-        "lists": list,
-    }
-    return render(request, "BaseApp/items.html", context)
-
-
-def updateItem(request, pk):
-    item = ListItems.objects.get(id=pk)
-    form = ListItemsForm(instance=item)
-
-    if request.method == "POST":
-        form = ListItemsForm(request.POST, instance=item)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {
-        "form": form,
-        "items": item
-    }
-    return render(request, "BaseApp/items.html", context)
-
-
-def deleteItem(request, pk):
-    item = ListItems.objects.get(id=pk)
-    if request.method == "POST":
-        item.delete()
-        return redirect('home')
-    context = {
-        "items": item
-    }
-    return render(request, "BaseApp/delete-item.html", context)

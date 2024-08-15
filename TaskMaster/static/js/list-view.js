@@ -7,6 +7,7 @@ let tasksContainer = document.getElementById("tasks-container");
 let listsContainer = document.getElementById("lists-container");
 let taskButtons = document.getElementById("task-buttons");
 let listButtons = document.getElementById("list-buttons");
+let listTitle = document.getElementById("list-title");
 
 async function lists(url) {
     try {
@@ -39,9 +40,8 @@ async function lists(url) {
                             `;
         }
         listsContainer.innerHTML = content;
-       listButtons.innerHTML=` <button class="btn btn-primary btn-block text-uppercase mb-3">
-                    Add new list
-                </button>`
+        
+       listButtons.innerHTML=` <a href="/add-list/" class="btn btn-primary btn-block text-uppercase mb-3">Add new list</a>`
     } catch (error) {
         console.log(error)
     }
@@ -79,9 +79,8 @@ async function lists(url) {
                 </tr>`;
             }
             taskButtons.innerHTML = `<a href="/add-item/${listID}" class="btn btn-primary btn-block text-uppercase mb-3">Add new task</a>
-                    <button class="btn btn-primary btn-block text-uppercase">
-                        Delete selected tasks
-                    </button>`;
+                    `;
+            
         } catch (error) {
             console.log(error)
         }
