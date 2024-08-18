@@ -15,6 +15,7 @@ body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   background-color: #4e657a;
   overflow-x: hidden;
+  position: relative;
 }
 
 a {
@@ -400,7 +401,9 @@ thead {
   border-radius: 0;
   height: 50px;
 }
-
+button{
+  border: none;
+}
 .form-group {
   margin-bottom: 15px;
 }
@@ -419,7 +422,7 @@ thead {
 .btn-primary {
   color: #fff;
   background-color: #f5a623;
-  border: 2px solid #f5a623;
+  border: 2px solid #f5a623 !important;
   font-size: 90%;
   font-weight: 600;
 }
@@ -428,7 +431,6 @@ thead {
 .btn-primary:hover {
   color: #f5a623;
   background-color: transparent;
-  border: 2px solid #f5a623;
 }
 
 .custom-file-input {
@@ -558,7 +560,7 @@ input[type="checkbox"]:focus {
   color: #fff;
 }
 
-.tm-product-delete-link {
+.tm-list-delete-link {
   padding: 10px;
   border-radius: 50%;
   background-color: #394e64;
@@ -566,12 +568,17 @@ input[type="checkbox"]:focus {
   width: 40px;
   height: 40px;
   text-align: center;
+  border: none;
 }
 
-.tm-product-delete-link:hover .tm-product-delete-icon {
+.tm-list-delete-link:hover .tm-product-delete-icon {
   color: #6d8ca6;
 }
 
+
+.tm-task-delete-link:hover .tm-product-delete-icon {
+  color: #6d8ca6;
+}
 .custom-select {
   width: 100%;
   border: none;
@@ -702,7 +709,66 @@ input[type="checkbox"]:focus {
 .tm-footer-link:focus {
   color: #aacbea;
 }
+.tm-task-delete-link {
+  position: absolute;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: #394e64;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: none;
+  z-index: 2;
+}
+/* .tm-task-delete-link.marginChange {
+  
+} */
+.confirmBody{
+  position: absolute;
+  overflow:hidden;
+  left: 20px;
+  width: 0px;
+  height: 40px;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  margin-right: 40px;
+  border-radius: 0 7px 7px 0; 
+  transition: width 0.5s ease-out,padding-left 0.5s ease-out,margin-right 0.5s ease-out, color 0.1s ease,
+    background-color 0.1s ease;
+  
+  color: #fff;
+}
+.confirmBody:hover {
+  background-color: rgb(211, 0, 0);
+  color: #aacbea;
+}
+.confirmBody.show {
+  width: 80px;
+  padding-left: 23px;
+  margin-right: 20px;
+  
+}
+.confirmBody::-webkit-scrollbar {
+  display: none;
+}
 
+.delete-text{
+  margin: 0;
+  font-stretch: extra-condensed;
+}
+
+.del-body{
+  position: relative;
+  width: 70px;
+  transition: all 0.5s ease-out;
+}
+.del-body.setWidth{
+  width: 125px;
+}
 @media (min-width: 1200px) {
   .navbar-expand-xl .navbar-nav .nav-link {
     padding-left: 28px;

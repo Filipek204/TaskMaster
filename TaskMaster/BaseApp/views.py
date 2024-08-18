@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView, ListAPIView
+from django.views.generic import TemplateView
 from rest_framework.response import Response
 from .models import List, ListItems
 from .serializers import ListSerializer, ListItemsSerializer, UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, permissions
-from django.contrib.auth.decorators import login_required
 from rest_framework_simplejwt.tokens import RefreshToken
-# import jwt
+
 #################### login Authentication API ######################
 
 
@@ -128,9 +128,9 @@ class DeleteItemAPIView(DestroyAPIView):
         super().perform_destroy(instance)
 
 ###################### Page Views ##########################
-
-def home(request):
-    return render(request, "BaseApp/home.html", {})
+class home(TemplateView):
+    template_name ="BaseApp/home.html"
+    
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def loginView(request):

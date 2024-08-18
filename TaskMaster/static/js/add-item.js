@@ -22,6 +22,10 @@ formAddItem.addEventListener('submit', async event => {
             
             if (!res.ok) {
                 console.log("problem", res.status);
+                if (res.status === 401) {
+                    window.location.href = "/login/"
+                    return;
+                }
                 return;
             }
             const data = await res.json();
@@ -32,16 +36,16 @@ formAddItem.addEventListener('submit', async event => {
         }
 })
 // elements = document.querySelectorAll('.item-view');
-            // elements.forEach(( element, index ) => {
-            //     element.addEventListener('click', event => {
-            //         viewItemModal.style.display = "block";
-            //         listViewTitle.innerHTML = filteredData[index].title
-            //         itemViewListTitle.innerHTML = listTitleData
-            //         delItem.addEventListener('click', () => {
-            //             deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
-            //             viewItemModal.style.display = "none";
-            //         })
-            //     });
-            // });
-            // listView.innerHTML =""
-            // listItems(itemsEndpoint)
+//             elements.forEach(( element, index ) => {
+//                 element.addEventListener('click', event => {
+//                     viewItemModal.style.display = "block";
+//                     listViewTitle.innerHTML = filteredData[index].title
+//                     itemViewListTitle.innerHTML = listTitleData
+//                     delItem.addEventListener('click', () => {
+//                         deleteItem(`${itemsEndpoint}${filteredData[index].id}/delete/`)
+//                         viewItemModal.style.display = "none";
+//                     })
+//                 });
+//             });
+//             listView.innerHTML =""
+//             listItems(itemsEndpoint)

@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import home, ListView, loginView, addItemView, addListView, CustomTokenObtainPairView, RegisterView, LogoutView,  UserProfileView, RetrieveListAPIView, CreateListAPIView, DeleteListAPIView, UpdateListAPIView, CreateItemAPIView, RetrieveUserItemAPIView, RetrieveListItemAPIView, UpdateItemAPIView, DeleteItemAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 urlpatterns = [
-    path('home/', home, name="home"),
+    path('home/', home.as_view(), name="home"),
     path('login/', loginView, name="login"),
     path('api/profile/', UserProfileView.as_view(), name="get-profile"),
     path('register/', RegisterView.as_view(), name="register"),

@@ -12,8 +12,12 @@ async function profileInfo(url) {
         });
         const data = await res.json();
         if (!res.ok) {
-                console.log("problem");
-                return;
+            console.log("problem");
+            if (res.status === 401) {
+                    window.location.href = "/login/"
+                    return;
+                }
+            return;
         }
         console.log(data)
         userName.innerHTML=data.username

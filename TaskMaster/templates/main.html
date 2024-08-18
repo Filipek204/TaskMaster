@@ -20,6 +20,11 @@
 	Product Admin CSS Template
 	https://templatemo.com/tm-524-product-admin
 	-->
+    <script>
+        if (!window.localStorage.getItem("access")) {
+                window.location.href = "/login/"
+            }
+    </script>
 </head>
 
 <body>

@@ -13,7 +13,11 @@ async function logout() {
 
         if (!res.ok) {
             console.log(res.status);
-            return; // Return null or handle error as needed
+            if (res.status === 401) {
+                    window.location.href = "/login/"
+                    return;
+                }
+                return;
         }
         // Save new tokens to localStorage
         window.localStorage.removeItem('access');
@@ -105,7 +109,11 @@ async function refreshToken() {
 
         if (!res.ok) {
             console.log(res.status);
-            return; // Return null or handle error as needed
+           if (res.status === 401) {
+                    window.location.href = "/login/"
+                    return;
+                }
+                return;
         }
 
         const data = await res.json();

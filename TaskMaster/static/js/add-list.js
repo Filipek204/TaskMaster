@@ -17,6 +17,10 @@ formAddList.addEventListener('submit', async event => {
             
             if (!res.ok) {
                 console.log("problem", res.status);
+                if (res.status === 401) {
+                    window.location.href = "/login/"
+                    return;
+                }
                 return;
             }
             const data = await res.json();
